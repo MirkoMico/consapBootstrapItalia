@@ -1,0 +1,119 @@
+<app-navbar></app-navbar>
+<article  >
+    
+    <div class="it-header-slim-left-zone" >Inserimento <span class="badge bg-primary">Richieste</span></div>
+    </article>
+    <p></p>
+
+
+<div class="container text-white">
+
+    <form class="marContenitore" [formGroup]="addRichiestaForm" (ngSubmit)="onSubmit()">
+    <!-- Prima Riga -->
+    <div class="row">
+        <div class="col-md-3">
+            <label for="numeroTicket">Numero Ticket</label>
+            <input type="text" class="form-control" formControlName="numeroTicket"
+             id="numeroTicket" placeholder="Inserisci numero ticket" maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        </div>
+        <div class="col-md-6">
+            <label for="oggetto">Oggetto</label>
+            <input type="text" class="form-control"
+            formControlName="oggetto" id="oggetto" placeholder="Inserisci oggetto">
+        </div>
+
+
+        <div class="col-md-3">
+            <label for="applicativo">Applicativo</label>
+            <select id="applicativo" class="form-control custom-select" formControlName="applicativo">
+                <option disabled selected hidden value="">- Selezione Applicativo -</option>
+                <ng-container *ngFor="let app of applicativo">
+                    <option value="{{app.applicativoId}}">
+                        {{ app.descApplicativo }}
+                    </option>
+                </ng-container>
+
+
+            </select>
+        </div>
+
+
+
+    </div>
+    <!-- 2a Riga -->
+    <div class="row">
+        <div class="col-md-3">
+            <label for="statoRichiestaConsap">Stato Richiesta CONSAP</label>
+        
+            <select id="statoRichiestaConsap" class="form-control custom-select" formControlName="statoRichiestaConsap">
+                <option disabled selected hidden value="">- Selezione Stato Richiesta Consap -</option>
+                <option *ngIf="statoRichiestaConsap.length > 0" value="{{ statoRichiestaConsap[0].statoRichiestaConsapId }}">
+                    {{ statoRichiestaConsap[0].descStatoRichiestaConsap }}
+                </option>
+            </select>
+        </div>
+
+
+        <div class="col-md-3">
+            <label for="statoRichiestaOs">Stato Richiesta OS</label>
+            <select id="statoRichiestaConsap" class="form-control custom-select" formControlName="statoRichiestaOs">
+                <option disabled selected hidden value="">- Selezione Stato Richiesta Os -</option>
+                <option *ngIf="statoRichiestaOs.length > 0" value="{{ statoRichiestaOs[0].statoRichiestaOsId }}">
+                    {{ statoRichiestaOs[0].descStatoRichiestaOs }}
+                </option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="statoApprovazioneConsap">Stato Approvazione CONSAP</label>
+            <select id="statoApprovazioneConsap" class="form-control custom-select" formControlName="statoApprovazioneConsap">
+                <option disabled selected hidden value="">- Selezione Stato Approvazione Consap -</option>
+                <option *ngIf="statoApprovazioneConsap.length > 0" value="{{ statoApprovazioneConsap[0].statoApprovazioneConsapId }}">
+                    {{ statoApprovazioneConsap[0].descStatoApprovazioneConsap }}
+                </option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="statoApprovazioneOs">Stato Approvazione OS</label>
+            <select id="statoApprovazioneOs" class="form-control custom-select"  formControlName="statoApprovazioneOs">
+                <option disabled selected hidden value="">- Selezione Stato Approvazione OS -</option>
+                <option *ngIf="statoApprovazioneOs.length > 0" value="{{ statoApprovazioneOs[0].statoApprovazioneOsId }}">
+                    {{ statoApprovazioneOs[0].descStatoApprovazioneOs }}
+                </option>
+            </select>
+        </div>
+    </div>
+    <!-- 3a Riga -->
+    <div class="row">
+        <div class="col-md-3">
+            <label for="dataCreazione">Data Creazione</label>
+            <input type="date" class="form-control" id="dataCreazione" formControlName="dataCreazione">
+        </div>
+        <div class="col-md-3">
+            <label for="dataStimaFinale">Data Stima Fine</label>
+            <input type="date" class="form-control" id="dataStimaFinale" formControlName="dataStimaFine">
+        </div>
+        <div class="col-md-3">
+            <label for="commessaOs">Commessa OS</label>
+            <select id="commessaOs" class="form-control custom-select" formControlName="commessaOs">
+                <option disabled selected hidden value="">- Commessa OS -</option>
+                <ng-container *ngFor="let com of commessaOs">
+                    <option value="{{com.commessaOsId}}">
+                        {{ com.codiceCommessaOs }}
+                    </option>
+                </ng-container>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="importo">Importo</label>
+            <input type="text" class="form-control" id="importo"
+            formControlName="importo" placeholder="Inserisci importo" oninput="this.value = this.value.replace(/[^0-9.]/g, '')"
+            >
+        </div>
+    </div>
+    <br>
+    <div class="btn-example">
+        <button type="submit" class="btn btn-primary " >Salva</button>
+      </div>
+    </form>
+</div>
+

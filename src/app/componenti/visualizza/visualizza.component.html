@@ -1,0 +1,78 @@
+<app-navbar></app-navbar>
+<article  >
+    
+    <div class="it-header-slim-left-zone" >Visualizza <span class="badge bg-primary">Richieste</span></div>
+    </article>
+    <p></p>
+
+    <div class="container text-white">
+
+        <form class="marContenitore" >
+        <!-- Prima Riga -->
+        <div class="row">
+            <div class="col-md-3">
+                <label for="numeroTicket">Numero Ticket</label>
+                <div type="text" id="numeroTicket"  class="form-control" >{{rich?.numeroTicket}}</div>
+            </div>
+            <div class="col-md-6">
+                <label for="oggetto">Oggetto</label>
+                <div type="text" id="oggetto"  class="form-control" >{{rich?.oggetto}}</div>
+            </div>
+    
+    
+            <div class="col-md-3">
+                <label for="applicativo">Applicativo</label>
+                <div type="text" id="applicativo"  class="form-control" >{{rich?.applicativo.descApplicativo}}</div>
+            </div>
+    
+    
+    
+        </div>
+        <!-- 2a Riga -->
+        <div class="row">
+            <div class="col-md-3">
+                <label for="statoRichiestaConsap">Stato Richiesta CONSAP</label>
+                <div type="text" id="statoRichiestaConsap"  class="form-control" >{{rich?.statoRichiestaConsap.descStatoRichiestaConsap}}</div>
+            
+                
+            </div>
+    
+    
+            <div class="col-md-3">
+                <label for="statoRichiestaOs">Stato Richiesta OS</label>
+                <div type="text" id="statoRichiestaOs"  class="form-control" >{{rich?.statoRichiestaOs.descStatoRichiestaOs}}</div>
+            </div>
+            <div class="col-md-3">
+                <label for="statoApprovazioneConsap">Stato Approvazione CONSAP</label>
+                <div type="text" id="statoApprovazioneConsap"  class="form-control" >{{rich?.statoApprovazioneConsap.descStatoApprovazioneConsap}}</div>
+            </div>
+            <div class="col-md-3">
+                <label for="statoApprovazioneOs">Stato Approvazione OS</label>
+                <div type="text" id="statoApprovazioneOs"  class="form-control" >{{rich?.statoApprovazioneOs.descStatoApprovazioneOs}}</div>
+            </div>
+        </div>
+        <!-- 3a Riga -->
+        <div class="row">
+            <div class="col-md-3">
+                <label for="dataCreazione">Data Creazione</label>
+                <div type="text" id="dataCreazione"  class="form-control" >{{rich?.dataCreazione}}</div>
+            </div>
+            <div class="col-md-3">
+                <label for="dataStimaFinale">Data Stima Fine</label>
+                <div type="text" id="dataStimaFinale"  class="form-control" >{{rich?.dataStimaFinale}}</div>
+            </div>
+            <div class="col-md-3">
+                <label for="commessaOs">Commessa OS</label>
+                <div type="text" id="commessaOs"  class="form-control" >{{rich?.commessaOs.codiceCommessaOs}}</div>
+            </div>
+            <div class="col-md-3">
+                <label for="importo">Importo</label>
+                <div type="text" id="importo"  class="form-control" >{{rich?.importo}}</div>
+            </div>
+        </div>
+        <br>
+        <div class="btn-example">
+            <button type="submit" class="btn btn-primary " >Salva</button>
+          </div>
+        </form>
+    </div>

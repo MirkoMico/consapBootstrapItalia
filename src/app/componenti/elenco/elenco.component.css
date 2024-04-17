@@ -1,0 +1,41 @@
+article {
+    font-size: 35px; /* Cambia la dimensione del testo */
+    margin-bottom: 40px; /* Aggiunge margine inferiore */
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+  .it-hero-wrapper {
+    position: relative;
+    background-image: url('https://img.gruppomol.it/articoli/image/assicurazioni/1200x800_icone_assicurazione.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 300px; /* Regola l'altezza dell'elemento secondo necessità */
+  }
+  
+  
+  .img-responsive-wrapper {
+    position: absolute;
+    z-index: -1;
+  }
+  .table {
+    opacity: 0.9; 
+  }
+
+  .argomento{
+    opacity: 0.9;
+  }
+ 
+
+.btn-secondary {
+  background-color: #ffffff; /* Colore di sfondo per il bottone Ripristina */
+  color: #28a745; /* Colore del testo per il bottone Ripristina */
+  border-color: #28a745; /* Colore del bordo per il bottone Ripristina */
+}
+
+.btn-secondary:hover {
+  background-color: #f8f9fa; /* Cambia il colore di sfondo al passaggio del mouse */
+}
+
+.scrittaVerde{
+  color: #28a745;
+}

@@ -1,0 +1,68 @@
+<app-navbar></app-navbar>
+
+
+
+
+
+<div *ngIf="!loading || !showSpinner">
+
+  <section class="it-hero-wrapper it-dark it-overlay">
+    <div class="img-responsive-wrapper">
+      <div class="img-responsive">
+        <div class="img-wrapper">
+          <img src="">
+
+        </div>
+
+      </div>
+
+    </div>
+
+   
+
+   
+
+
+
+<table class="table table-striped table-hover table-success ">
+  
+    <thead>
+      <tr >
+        <!-- <th scope="col">#</th> -->
+        <th scope="col">Numero Ticket</th>
+        <th scope="col">Applicativo</th>
+        <th scope="col">Oggetto</th>
+        <th scope="col">Data Creazione</th>
+        <th scope="col">Stato Richiesta Consap</th>
+        <th scope="col">Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let richiesta of richieste">
+            <td>{{richiesta.numeroTicket}}</td>
+            <td>{{richiesta.applicativo.descApplicativo}}</td>
+            <td>{{richiesta.oggetto}}</td>
+            <td>{{richiesta.statoRichiestaConsap.descStatoRichiestaConsap}}</td>
+            <td>{{richiesta.dataCreazione}}</td>
+            <th><button type="button"  class="btn btn-block btn-outline-primary btn-sm" (click)="redirect(richiesta)">Visualizza</button></th> 
+           <!--   <th><button type="button"  class="btn btn-block btn-outline-success btn-sm" >Modifica</button></th>  --> 
+           
+
+        </tr>
+    </tbody>
+  </table>
+</section>
+</div>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-6 col-lg-3 mt-3 mt-lg-0" *ngIf="loading">
+        <p class="mb-3"><strong>Sto caricando le richieste...</strong></p>
+        <div class="progress-spinner progress-spinner-active size-xl">
+          <span class="visually-hidden">Sto preparando i dati...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
