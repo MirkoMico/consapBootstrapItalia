@@ -19,9 +19,9 @@ export class InserimentoComponent implements OnInit {
 
   nuovaRichiesta!: Richieste;
 
- addRichiestaForm!: FormGroup;
+ //addRichiestaForm!: FormGroup;
 
- dataCreazione: string;
+ dataCreazione: string = '';
 
 
   applicativo: any = [];
@@ -41,7 +41,7 @@ export class InserimentoComponent implements OnInit {
     this.statoApprovazioneOsPost();
     this.commessaOsPost();
 
-    this.addRichiestaForm = this.formBuilder.group({
+    /* this.addRichiestaForm = this.formBuilder.group({
       numeroTicket: ['', Validators.required], // Esempio di campo richiesto
       oggetto: ['', Validators.required],
       applicativo: ['', Validators.required],
@@ -54,7 +54,7 @@ export class InserimentoComponent implements OnInit {
       importo: ['', Validators.required],
       commessaOs: ['', Validators.required],
       // Aggiungi altri campi se necessario
-    });
+    }); */
     
   }
   
@@ -276,6 +276,12 @@ openSalva() {
     }
   
   }
+}
+
+aggiornaDataCreazione() {
+  const dataCreazioneElement = document.getElementById('dataCreazione') as HTMLInputElement;
+  this.dataCreazione = dataCreazioneElement.value;
+
 }
 
 
