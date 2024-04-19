@@ -72,7 +72,51 @@
         </div>
         <br>
         <div class="btn-example">
-            <button type="submit" class="btn btn-primary " >Salva</button>
+            <button type="submit" class="btn btn-primary"  >Salva</button>
           </div>
         </form>
     </div>
+
+    <br><br/>
+
+
+    <article  >
+    
+        <div class="it-header-slim-left-zone" >Visualizza <span class="badge bg-primary">Storico</span></div>
+        </article>
+        <p></p>
+
+
+    <table class="table table-hover table-striped table-bordered table-success">
+        <thead>
+            <tr >
+              <!-- <th scope="col">#</th> -->
+              <th scope="col">Numero Ticket</th>
+              <th scope="col">Applicativo</th>
+              <th scope="col">Oggetto</th>
+              <th scope="col">Data Inserimento</th>
+              <th scope="col">Stato Richiesta Consap</th>
+              
+              <th scope="col">Azioni</th>
+            </tr>
+          </thead>
+
+          <tbody>
+              <tr *ngFor="let richiesta of richStorico"> 
+                <td>{{richiesta.numeroTicket}}</td>
+                <td>{{richiesta.applicativo.descApplicativo}}</td>
+                <td>{{richiesta.oggetto}}</td>
+                <td>{{richiesta.dataInserimento | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                <td>{{richiesta.statoRichiestaConsap.descStatoRichiestaConsap}}</td>
+               <!--  <th><button type="button"  class="btn btn-block btn-outline-primary btn-sm" (click)="redirect(richiesta)">Visualizza</button></th>  --> 
+                 <th><button type="button"  class="btn btn-block btn-outline-success btn-sm"(click)="visualizzaSingola(richiesta)" 
+                    >Visualizza </button></th>  
+               
+    
+            </tr> 
+        </tbody>
+       
+      </table>
+
+    
+   

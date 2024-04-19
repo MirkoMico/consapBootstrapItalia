@@ -1,13 +1,145 @@
 <app-navbar></app-navbar>
+<!--  <app-filtri></app-filtri> -->
+ 
+<!-- ------filtri------
+ -->
+ 
+ <div class="dropdown dropstart text-center ">
+  <a class="btn btn-dropdown dropdown-toggle" role="button" id="dropdownMenuDropleft" 
+    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="apriDropdown()" style="color: #fff;">
+    <svg class="icon-expand icon icon-sm icon-light" *ngIf="!isDropdownOpen"><use href="#it-expand"></use></svg>
+    <svg class="icon-collapse icon icon-sm icon-light" *ngIf="isDropdownOpen"><use href="#it-collapse"></use></svg>
+    {{ isDropdownOpen ? 'Chiudi Filtri' : 'Apri Filtri' }}
+  </a>
+  <div class="dropdown-menu2" id="dropdown-menu2" aria-labelledby="dropdownMenuDropleft" [hidden]="!isDropdownOpen">
+    <div class="link-list-wrapper">
+      <ul className="link-list">
+          <div className="d-flex">
+
+              <div class="row">
+
+                  <div class="col-md-3">
+                      <label for="numeroTicketFiltro" style="color: #fff;">Numero Ticket</label>
+                      <input type="text" id="numeroTicketFiltro"  class="form-control"  placeholder="Inserisci numero ticket" 
+                      maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '')" >
+                  </div>
+
+                  <div class="col-md-6">
+                      <label for="oggettoFiltro" style="color: #fff;">Oggetto</label>
+                      <input type="text" id="oggettoFiltro"  class="form-control" placeholder="Inserisci oggetto" >
+                  </div>
+                  <div class="col-md-3">
+                      <label for="applicativoFiltro" style="color: #fff;">Applicativo</label>
+                      <select id="applicativoFiltro" class="form-control custom-select"  >
+                          <option disabled selected hidden value="" href="#it-password-visible">- Selezione Applicativo -
+                              
+                          </option>
+                          
+                           <ng-container *ngFor="let app of applicativo">
+                              <option value="{{app.applicativoId}}">
+                                  {{ app.descApplicativo }}
+                              </option>
+                          </ng-container> 
+          
+                      </select>
+
+                     
+                  </div>
+                 
+      </div>
+
+      <div class="row">
+          <div class="col-md-3">
+              <label for="statoRichiestaConsapFiltro" style="color: #fff;">Stato Richiesta Consap</label>
+              <select id="statoRichiestaConsapFiltro" class="form-control custom-select" >
+                  <option disabled selected hidden value="">- Selezione Stato Richiesta Consap -</option>
+                   <ng-container *ngFor="let app of statoRichiestaConsap">
+                      <option value="{{app.statoRichiestaConsapId}}">
+                          {{ app.descStatoRichiestaConsap }}
+                      </option>
+                  </ng-container> 
+  
+              </select>
+          </div>
+
+          <div class="col-md-3">
+              <label for="statoRichiestaOsFiltro" style="color: #fff;">Stato Richiesta Os</label>
+              <select id="statoRichiestaOsFiltro" class="form-control custom-select" >
+                  <option disabled selected hidden value="">- Selezione Stato Richiesta Os -</option>
+                   <ng-container *ngFor="let app of statoRichiestaOs">
+                      <option value="{{app.statoRichiestaOsId}}">
+                          {{ app.descStatoRichiestaOs }}
+                      </option>
+                  </ng-container> 
+  
+              </select>
+          </div>
+
+          <div class="col-md-3">
+              <label for="statoApprovazioneConsapFiltro" style="color: #fff;">Stato Approvazione Consap</label>
+              <select id="statoApprovazioneConsapFiltro" class="form-control custom-select" >
+                  <option disabled selected hidden value="">- Selezione Stato Approvazione Consap-</option>
+                  <ng-container *ngFor="let app of statoApprovazioneConsap">
+                      <option value="{{app.statoApprovazioneConsapId}}">
+                          {{ app.descStatoApprovazioneConsap }}
+                      </option>
+                  </ng-container> 
+  
+              </select>
+          </div>
+
+          <div class="col-md-3">
+              <label for="statoApprovazioneOsFiltro" style="color: #fff;">Stato Approvazione OS</label>
+              <select id="statoApprovazioneOsFiltro" class="form-control custom-select" style="color: black;">
+                  <option disabled selected hidden value="">- Selezione Stato Approvazione OS -</option>
+                   <ng-container *ngFor="let app of statoApprovazioneOs">
+                      <option value="{{app.statoApprovazioneOsId}}">
+                          {{ app.descStatoApprovazioneOs }}
+                      </option>
+                  </ng-container> 
+  
+              </select>
+          </div>
+
+      </div>
 
 
+      
 
 
+      
 
+
+</div>
+<p></p>
+
+<div class="row">
+
+<div class="text-center mt-3">
+  <button class="btn btn-primary"   
+   (click)="filtraRichieste()" >Filtra</button>
+</div>
+<p></p>
+<div className="text-center mt-3">
+  <button class="btn btn-primary"   
+(click)="ripristinaFiltro()"  >Repristina Filtra</button>
+</div>
+
+</div>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ---------fine filtri--------- -->
 <div *ngIf="!loading || !showSpinner">
 
-  <section class="it-hero-wrapper it-dark it-overlay">
-    <div class="img-responsive-wrapper">
+
+ <!--  -----sfondo------- -->
+
+   <!-- <section class="it-hero-wrapper it-dark it-overlay"> 
+     <div class="img-responsive-wrapper">
       <div class="img-responsive">
         <div class="img-wrapper">
           <img src="">
@@ -16,7 +148,9 @@
 
       </div>
 
-    </div>
+    </div>  -->
+
+   <!--  ----fine sfondo-------- -->
 
    
 
@@ -42,8 +176,9 @@
             <td>{{richiesta.numeroTicket}}</td>
             <td>{{richiesta.applicativo.descApplicativo}}</td>
             <td>{{richiesta.oggetto}}</td>
-            <td>{{richiesta.statoRichiestaConsap.descStatoRichiestaConsap}}</td>
+           
             <td>{{richiesta.dataCreazione}}</td>
+            <td>{{richiesta.statoRichiestaConsap.descStatoRichiestaConsap}}</td>
             <th><button type="button"  class="btn btn-block btn-outline-primary btn-sm" (click)="redirect(richiesta)">Visualizza</button></th> 
            <!--   <th><button type="button"  class="btn btn-block btn-outline-success btn-sm" >Modifica</button></th>  --> 
            
@@ -51,18 +186,87 @@
         </tr>
     </tbody>
   </table>
-</section>
+
+ <!--  --------page---------- -->
+ <nav class="pagination-wrapper" aria-label="Esempio di navigazione con page changer">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="#">
+        <svg class="icon icon-primary"><use href="#it-chevron-left"></use></svg>
+        <span class="visually-hidden">Pagina precedente</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><span class="page-link">...</span></li>
+    <li class="page-item"><a class="page-link" href="#">24</a></li>
+    <li class="page-item"><a class="page-link" href="#">25</a></li>
+    <li class="page-item active">
+      <a class="page-link" href="#" aria-current="page">
+        <span class="d-inline-block d-sm-none">Pagina </span>26
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">27</a></li>
+    <li class="page-item"><a class="page-link" href="#">28</a></li>
+    <li class="page-item"><span class="page-link">...</span></li>
+    <li class="page-item"><a class="page-link" href="#">50</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">
+        <span class="visually-hidden">Pagina successiva</span>
+        <svg class="icon icon-primary"><use href="#it-chevron-right"></use></svg>
+      </a>
+    </li>
+  </ul>
+  <div class="dropdown3">
+    <button class="btn btn-dropdown dropdown-toggle" type="button"  data-bs-toggle="dropdown"
+     aria-haspopup="true" aria-expanded="false" aria-label="Salta alla pagina" (click)="apriChiudiDropdown()" >
+    {{paginaSelezionata}}
+    <svg class="icon icon-outline-primary icon-sm" ><use href="#it-expand"></use></svg>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="pagerChanger" id="pagerChanger" >
+      <div class="link-list-wrapper">
+        <ul class="link-list">
+           <li><a class="list-item active cursore "  value="5" (click)="cambiaDimensionePagina($event)" aria-current="page" ><span>5/pagina</span></a></li>
+           <li><a class="dropdown-item list-item cursore" value="10" (click)="cambiaDimensionePagina($event)"><span>10/pagina</span></a></li>
+           <li><a class="dropdown-item list-item cursore" value="20" (click)="cambiaDimensionePagina($event)"><span>20/pagina</span></a></li>
+           <!-- <li><a class="dropdown-item list-item" href="#"><span>40/pagina</span></a></li>
+           <li><a class="dropdown-item list-item" href="#"><span>50/pagina</span></a></li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+ <!-- --------finePage------ -->
+
+
+<!-- </section>  -->
+ 
 </div>
 
+<!-- -------------spinner--------- -->
 
-  <div class="container">
+  <div class="container centrato">
     <div class="row">
-      <div class="col-6 col-lg-3 mt-3 mt-lg-0" *ngIf="loading">
+      <div class="col-12 col-lg-12 mt-3 mt-lg-0" *ngIf="loading">
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
         <p class="mb-3"><strong>Sto caricando le richieste...</strong></p>
+        
         <div class="progress-spinner progress-spinner-active size-xl">
           <span class="visually-hidden">Sto preparando i dati...</span>
         </div>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
       </div>
     </div>
   </div>
   
+ 
+
+ <!--  --------spinner----------
+   -->

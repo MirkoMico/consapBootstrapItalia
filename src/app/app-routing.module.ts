@@ -7,6 +7,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { ElencoComponent } from './componenti/elenco/elenco.component';
 import { InserimentoComponent } from './componenti/inserimento/inserimento.component';
 import { VisualizzaComponent } from './componenti/visualizza/visualizza.component';
+import { FiltriComponent } from './componenti/filtri/filtri.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'elenco', component: ElencoComponent, canActivate: [AuthGuard] },
   { path: 'inserimento', component: InserimentoComponent, canActivate: [AuthGuard] },
   { path: 'visualizza', component: VisualizzaComponent, canActivate: [AuthGuard] },
+  { path: 'filtri', component: FiltriComponent, canActivate: [AuthGuard] },
 
 ];
 

@@ -39,3 +39,76 @@ article {
 .scrittaVerde{
   color: #28a745;
 }
+
+.dropdown{
+   
+  background-color: #00402B; 
+ 
+}
+.dropdown-menu2 {
+  
+  background-color: #00402B; 
+} 
+
+.dropdown-menu2 ul,
+.dropdown-menu2 li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+} 
+
+ .dropdown-menu2 .link-list-wrapper {
+  padding: 10px;
+}
+
+.dropdown-menu2 .link-list-wrapper li {
+  margin-bottom: 5px;
+}
+
+.dropdown-menu2 .link-list-wrapper li:last-child {
+  margin-bottom: 0;
+}
+
+.dropdown-menu2 .link-list-wrapper .dropdown-item {
+  color: #fff;
+}
+
+.dropdown-menu2 .link-list-wrapper .dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-menu2 .link-list-wrapper .dropdown-item:focus,
+.dropdown-menu2 .link-list-wrapper .dropdown-item.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+} 
+
+
+
+.centrato {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-spinner {
+  width: 100px; /* Regola la larghezza dello spinner */
+  height: 100px; /* Regola l'altezza dello spinner */
+  justify-content: center;
+  align-items: center;
+  /* Aggiungi qui altri stili dello spinner se necessario */
+}
+ 
+.pagination-wrapper {
+   display: flex; 
+  justify-content: center; 
+ /*  align-items: center; */
+  /* margin-top: 20px; */
+}
+
+.cursore {
+  cursor: pointer;
+}
+ 
+
+

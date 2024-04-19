@@ -21,6 +21,8 @@ export class InserimentoComponent implements OnInit {
 
  addRichiestaForm!: FormGroup;
 
+ dataCreazione: string;
+
 
   applicativo: any = [];
   statoRichiestaConsap: any = [];
@@ -100,20 +102,7 @@ export class InserimentoComponent implements OnInit {
     })
   }
 
-  /* parsNumeroTicket: number;
-  parsApplicativo: number;
-  parsStatoRichiestaConsap: number;
-  parsStatoRichiestaOs: number;
-  parsStatoApprovazioneConsap: number;
-  parsStatoApprovazioneOs: number;
-  parsCommessaOs: number;
-  parsImporto: number;
-
-  oggetto: string;
- parsDataCreazione: Date;
-  dataStimaFine: any;
-  dataCreazione: any; */
-
+  
 
  
 
@@ -122,131 +111,103 @@ export class InserimentoComponent implements OnInit {
 
 
    addRichiesta(){
-    /* const nuovaRichiesta={
+    //prendo il valore di ciascun campo tramite id in html
+    const numeroTicket = (<HTMLInputElement>(
+      document.getElementById('numeroTicket')
+    )).value;
+    const numeroTicketParsed = parseInt(numeroTicket);
 
-      
-      
-      numeroTicket: this.addRichiestaForm.value.numeroTicket,
-  
-      
-      oggetto: this.addRichiestaForm.value.oggetto,
-      applicativo: {applicativoId:this.addRichiestaForm.value.applicativo,descApplicativo: null },
-      statoRichiestaConsap:{statoRichiestaConsapId: this.addRichiestaForm.value.statoRichiestaConsap,descStatoRichiestaConsap: null},
-      //dataCreazione: this.addRichiestaForm.value.dataCreazione,
-     // dataCreazione: new Date(this.addRichiestaForm.value.dataCreazione),
-     dataCreazione: this.addRichiestaForm.value.dataCreazione.toISOString(),
-      statoApprovazioneConsap:{statoApprovazioneConsapId: this.addRichiestaForm.value.statoApprovazioneConsap,descStatoApprovazioneConsap: null},
-      statoRichiestaOs: {statoRichiestaOsId: this.addRichiestaForm.value.statoRichiestaOs, descStatoRichiestaOs:null},
-      statoApprovazioneOs: {statoApprovazioneOsId: this.addRichiestaForm.value.statoApprovazioneOs,descStatoApprovazioneOs:null},
-      dataStimaFine: this.addRichiestaForm.value.dataStimaFine,
-      importo: this.addRichiestaForm.value.importo,
-      commessaOs: {commessaOsId:this.addRichiestaForm.value.commessaOs,codiceCommessa:null,descCommessaOs:null}
-  
-    }
-  
-    console.log(nuovaRichiesta.applicativo.applicativoId);
-    this.parsNumeroTicket = parseInt(nuovaRichiesta.numeroTicket);
-      this.parsApplicativo = parseInt(nuovaRichiesta.applicativo.applicativoId);
-      this.parsStatoRichiestaConsap = parseInt(nuovaRichiesta.statoRichiestaConsap.statoRichiestaConsapId);
-      this.parsStatoApprovazioneConsap = parseInt(nuovaRichiesta.statoApprovazioneConsap.statoApprovazioneConsapId);
-      this.parsStatoRichiestaOs = parseInt(nuovaRichiesta.statoRichiestaOs.statoRichiestaOsId);
-      this.parsStatoApprovazioneOs = parseInt(nuovaRichiesta.statoApprovazioneOs.statoApprovazioneOsId);
-      this.parsCommessaOs = parseInt(nuovaRichiesta.commessaOs.commessaOsId);
-      this.parsImporto = parseInt(nuovaRichiesta.importo);
-     // this.parsDataCreazione = nuovaRichiesta.dataCreazione.toISOString(); // Converti la data in stringa */
-
-
-//prendimi il valore del form con id numeroTicket
-    const numeroTicket = this.addRichiestaForm.get('numeroTicket')?.value;
-    const parsNumeroTicket = parseInt(numeroTicket);
-
-    //prendimi il valore del form con id applicativo
-    const applicativo = this.addRichiestaForm.get('applicativo')?.value;
-    const parsApplicativo = parseInt(applicativo);
-
-    //prendimi il valore del form con id statoRichiestaConsap
-    const statoRichiestaConsap = this.addRichiestaForm.get('statoRichiestaConsap')?.value;
-    const parsStatoRichiestaConsap = statoRichiestaConsap===''?null: parseInt(statoRichiestaConsap);
-
-    //prendimi il valore del form con id statoApprovazioneConsap
-    const statoApprovazioneConsap = this.addRichiestaForm.get('statoApprovazioneConsap')?.value;
-    const parsStatoApprovazioneConsap = statoApprovazioneConsap===''?null: parseInt(statoApprovazioneConsap);
-
-    //prendimi il valore del form con id statoRichiestaOs
-    const statoRichiestaOs = this.addRichiestaForm.get('statoRichiestaOs')?.value;
-    const parsStatoRichiestaOs = statoRichiestaOs===''?null: parseInt(statoRichiestaOs);
-
-    //prendimi il valore del form con id statoApprovazioneOs
-    const statoApprovazioneOs = this.addRichiestaForm.get('statoApprovazioneOs')?.value;
-    const parsStatoApprovazioneOs = statoApprovazioneOs===''?null: parseInt(statoApprovazioneOs);
-
-    //prendimi il valore del form con id commessaOs
-    const commessaOs = this.addRichiestaForm.get('commessaOs')?.value;
-    const parsCommessaOs = parseInt(commessaOs);
-
-    //prendimi il valore del form con id importo
-    const importo = this.addRichiestaForm.get('importo')?.value;
-   //creami una nuova const e mettimi importo convertito in una stringa
-    const importoStringa = importo==='' ? null : importo.toString();
-
-    //prendimi il valore del form con id dataCreazione
-    const dataCreazione = this.addRichiestaForm.get('dataCreazione')?.value;
-    const dataCreazioneStringa = dataCreazione.toString();
-
-    //prendimi il valore del form con id dataStimaFine
-    const dataStimaFine = this.addRichiestaForm.get('dataStimaFine')?.value;
-    //se datastimafine è vuota impostamela come null
-    const dataStimaFineStringa = dataStimaFine==='' ? null : String(dataStimaFine);
+    const oggetto = (<HTMLInputElement>document.getElementById('oggetto')).value;
+    const oggettoParsed: string = String(oggetto);  
     
-    const oggetto = this.addRichiestaForm.get('oggetto')?.value;
-    const oggettoStringa= oggetto.toString();
+    const applicativo = (<HTMLSelectElement>(
+      document.getElementById('applicativo')
+      )).value;
+    const applicativoParsed = applicativo ==='' ? null : parseInt(applicativo);
+    
+    const dataCreazione = (<HTMLInputElement>(
+      document.getElementById('dataCreazione')
+    )).value;
+    const dataCreazioneParsed: string = String(dataCreazione);
+
+    const statoRichiestaConsap = (<HTMLSelectElement>(
+      document.getElementById('statoRichiestaConsap')
+    )).value;
+    const statoRichiestaConsapParsed = statoRichiestaConsap === '' ? null : parseInt(statoRichiestaConsap);
+
+
+    const importo = (<HTMLInputElement>document.getElementById('importo'))
+      .value;
+      const importoParsed = importo === '' ? null : importo;
+
+    const statoApprovazioneConsap = (<HTMLSelectElement>(
+      document.getElementById('statoApprovazioneConsap')
+    )).value;
+
+    const statoApprovazioneConsapParsed = statoApprovazioneConsap === '' ? null : parseInt(statoApprovazioneConsap);
     
 
+    const statoApprovazioneOs = (<HTMLSelectElement>(
+      document.getElementById('statoApprovazioneOs')
+    )).value;
+    const statoApprovazioneOsParsed = statoApprovazioneOs === '' ? null : parseInt(statoApprovazioneOs);
 
+    const statoRichiestaOs = (<HTMLSelectElement>(
+      document.getElementById('statoRichiestaOs')
+    )).value;
+    const statoRichiestaOsParsed = statoRichiestaOs === '' ? null : parseInt(statoRichiestaOs);
+    
+    const dataStimaFinale = (<HTMLInputElement>(
+      document.getElementById('dataStimaFinale')
+    )).value;
 
-
+    const dataStimaFinaleParsed = dataStimaFinale === '' ? null : String(dataStimaFinale);
+  
+    const commessaOs = (<HTMLSelectElement>(
+      document.getElementById('commessaOs')
+    )).value;
+    const commessaOsParsed = parseInt(commessaOs);
 
     
     
     const dati = {
       erroreDTO: null,
       filtri: null,
-      elenco: [{
-        numeroTicket:parsNumeroTicket ,
-        applicativo: {
-            applicativoId: parsApplicativo
-        },
-        oggetto: oggettoStringa,
-         statoRichiestaConsap: {
-            statoRichiestaConsapId: parsStatoRichiestaConsap
-        },
-        dataCreazione: dataCreazioneStringa,
-        statoApprovazioneConsap: {
-            statoApprovazioneConsapId: parsStatoApprovazioneConsap
-        },
-        statoApprovazioneOs: {
-            statoApprovazioneOsId: parsStatoApprovazioneOs
-        },
-        statoRichiestaOs: {
-            statoRichiestaOsId: parsStatoRichiestaOs
-        },
-        dataStimaFinale: dataStimaFineStringa,
-         importo: importoStringa, 
-        commessaOs: {
-            commessaOsId: parsCommessaOs
-        } 
-    }],
-    
-    
+      elenco: 
+      [
+          {
+              id: null,
+              numeroTicket: numeroTicketParsed,
+              applicativo: {
+                  applicativoId: applicativoParsed
+              },
+              oggetto: oggettoParsed,
+              statoRichiestaConsap: {
+                  statoRichiestaConsapId: statoRichiestaConsapParsed
+              },
+              dataCreazione: dataCreazioneParsed,
+              statoApprovazioneConsap: {
+                  statoApprovazioneConsapId: statoApprovazioneConsapParsed
+              },
+              statoApprovazioneOs: {
+                  statoApprovazioneOsId: statoApprovazioneOsParsed
+              },
+              statoRichiestaOs: {
+                  statoRichiestaOsId: statoRichiestaOsParsed
+              },
+              dataStimaFinale: dataStimaFinaleParsed,
+              importo: importoParsed,
+              commessaOs: {
+                  commessaOsId: commessaOsParsed
+              }
+          }
+      ]
   };
-  console.log(dati, 'PARS RICHIESTA');
-
-    
-
-    
-    this.chiamateService.createRichiesta(dati).subscribe(data => {
-      console.log(data, 'SALVATAGGIO RICHIESTA');
-     
+    this.chiamateService.createRichiesta(dati).subscribe((data) => {
+      console.log("RICHIESTA SALVATA:",dati);
+      
+    }, (error) => {
+      console.error(error);
     })
    
   } 
@@ -254,7 +215,7 @@ export class InserimentoComponent implements OnInit {
   
 
 
-  onSubmit(){
+   /* onSubmit(){
     console.log(this.addRichiestaForm.value.numeroTicket, "numero ticket");
     console.log(this.addRichiestaForm.value.oggetto, "oggetto");
     console.log(this.addRichiestaForm.value.applicativo, "applicativo");
@@ -263,5 +224,80 @@ export class InserimentoComponent implements OnInit {
     this.addRichiesta()
     
     
+  }  */
+
+
+
+openSalva() {
+  const numeroTicket = (<HTMLInputElement>(
+    document.getElementById('numeroTicket')
+  )).value;
+
+  const oggetto = (<HTMLInputElement>(
+    document.getElementById('oggetto')
+  )).value;
+
+  const applicativo = (<HTMLSelectElement>(
+    document.getElementById('applicativo')
+  )).value;
+
+  const dataCreazione = (<HTMLInputElement>(
+    document.getElementById('dataCreazione')
+  )).value;
+
+  let campiMancanti = "";
+
+  if (!numeroTicket ||  !/^\d{5}$/.test(numeroTicket )) {
+    campiMancanti += "Numero Ticket (5 caratteri numerici), ";
   }
+  
+
+  if (!oggetto) {
+    campiMancanti += "Oggetto, ";
+  }
+
+  if (!applicativo) {
+    campiMancanti += "Applicativo, ";
+  }
+
+  if (!dataCreazione) {
+    campiMancanti += "Data Creazione, ";
+  }
+
+  if (campiMancanti) {
+    alert("Campi obbligatori non completi: " + campiMancanti.slice(0, -2));
+  } else {
+    // Tutti i campi sono stati compilati correttamente
+    const modal = document.getElementById('modal1');
+      
+    if (modal) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+    }
+  
+  }
+}
+
+
+  chiudiSalva(){
+    const modal =document.getElementById('modal1');
+    if(modal){
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+    }
+  }
+
+
+  refreshPage(){
+    window.location.reload();
+  }
+
+  showErrorNumeroTicket = false;
+
+  checkNumeroTicket(event: any) {
+    const inputText = event.target.value;
+    this.showErrorNumeroTicket = !(/^\d{5}$/.test(inputText));
+  }
+
+
 }

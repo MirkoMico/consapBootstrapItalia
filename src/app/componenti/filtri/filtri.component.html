@@ -1,0 +1,128 @@
+<div class="dropdown dropstart text-center ">
+    <a class="btn btn-dropdown dropdown-toggle" role="button" id="dropdownMenuDropleft" 
+      data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="apriDropdown()" style="color: #fff;">
+      <svg class="icon-expand icon icon-sm icon-light" *ngIf="!isDropdownOpen"><use href="#it-expand"></use></svg>
+      <svg class="icon-collapse icon icon-sm icon-light" *ngIf="isDropdownOpen"><use href="#it-collapse"></use></svg>
+      {{ isDropdownOpen ? 'Chiudi Filtri' : 'Apri Filtri' }}
+    </a>
+    <div class="dropdown-menu2" id="dropdown-menu2" aria-labelledby="dropdownMenuDropleft" [hidden]="!isDropdownOpen">
+      <div class="link-list-wrapper">
+        <ul className="link-list">
+            <div className="d-flex">
+  
+                <div class="row">
+  
+                    <div class="col-md-3">
+                        <label for="numeroTicketFiltro" style="color: #fff;">Numero Ticket</label>
+                        <input type="text" id="numeroTicketFiltro"  class="form-control"  placeholder="Inserisci numero ticket" 
+                        maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '')" >
+                    </div>
+  
+                    <div class="col-md-6">
+                        <label for="oggettoFiltro" style="color: #fff;">Oggetto</label>
+                        <input type="text" id="oggettoFiltro"  class="form-control" placeholder="Inserisci oggetto" >
+                    </div>
+                    <div class="col-md-3">
+                        <label for="applicativoFiltro" style="color: #fff;">Applicativo</label>
+                        <select id="applicativoFiltro" class="form-control custom-select"  >
+                            <option disabled selected hidden value="" href="#it-password-visible">- Selezione Applicativo -
+                                
+                            </option>
+                            
+                             <ng-container *ngFor="let app of applicativo">
+                                <option value="{{app.applicativoId}}">
+                                    {{ app.descApplicativo }}
+                                </option>
+                            </ng-container> 
+            
+                        </select>
+  
+                       
+                    </div>
+                   
+        </div>
+  
+        <div class="row">
+            <div class="col-md-3">
+                <label for="statoRichiestaConsapFiltro" style="color: #fff;">Stato Richiesta Consap</label>
+                <select id="statoRichiestaConsapFiltro" class="form-control custom-select" >
+                    <option disabled selected hidden value="">- Selezione Stato Richiesta Consap -</option>
+                     <ng-container *ngFor="let app of statoRichiestaConsap">
+                        <option value="{{app.statoRichiestaConsapId}}">
+                            {{ app.descStatoRichiestaConsap }}
+                        </option>
+                    </ng-container> 
+    
+                </select>
+            </div>
+  
+            <div class="col-md-3">
+                <label for="statoRichiestaOsFiltro" style="color: #fff;">Stato Richiesta Os</label>
+                <select id="statoRichiestaOsFiltro" class="form-control custom-select" >
+                    <option disabled selected hidden value="">- Selezione Stato Richiesta Os -</option>
+                     <ng-container *ngFor="let app of statoRichiestaOs">
+                        <option value="{{app.statoRichiestaOsId}}">
+                            {{ app.descStatoRichiestaOs }}
+                        </option>
+                    </ng-container> 
+    
+                </select>
+            </div>
+  
+            <div class="col-md-3">
+                <label for="statoApprovazioneConsapFiltro" style="color: #fff;">Stato Approvazione Consap</label>
+                <select id="statoApprovazioneConsapFiltro" class="form-control custom-select" >
+                    <option disabled selected hidden value="">- Selezione Stato Approvazione Consap-</option>
+                    <ng-container *ngFor="let app of statoApprovazioneConsap">
+                        <option value="{{app.statoApprovazioneConsapId}}">
+                            {{ app.descStatoApprovazioneConsap }}
+                        </option>
+                    </ng-container> 
+    
+                </select>
+            </div>
+  
+            <div class="col-md-3">
+                <label for="statoApprovazioneOsFiltro" style="color: #fff;">Stato Approvazione OS</label>
+                <select id="statoApprovazioneOsFiltro" class="form-control custom-select" style="color: black;">
+                    <option disabled selected hidden value="">- Selezione Stato Approvazione OS -</option>
+                     <ng-container *ngFor="let app of statoApprovazioneOs">
+                        <option value="{{app.statoApprovazioneOsId}}">
+                            {{ app.descStatoApprovazioneOs }}
+                        </option>
+                    </ng-container> 
+    
+                </select>
+            </div>
+  
+        </div>
+  
+  
+        
+  
+  
+        
+  
+  
+  </div>
+  <p></p>
+  
+  <div class="row">
+  
+  <div class="text-center mt-3">
+    <button class="btn btn-primary"   
+     (click)="filtraRichieste()" >Filtra</button>
+  </div>
+  <p></p>
+  <div className="text-center mt-3">
+    <button class="btn btn-primary"   
+  (click)="ripristinaFiltro()"  >Repristina Filtra</button>
+  </div>
+  
+  </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  

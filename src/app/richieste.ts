@@ -11,6 +11,7 @@ export class Richieste {
     dataStimaFine!: Date
     importo!: number
     commessaOs!:{commessaOsId: number,codiceCommessa:any, descCommessaOs: any }
+    
 
 
 }

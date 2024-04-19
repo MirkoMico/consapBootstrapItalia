@@ -28,6 +28,7 @@ export class ChiamateService {
   private urlStatoApprovazioneConsap = 'http://localhost:8080/approvazioneConsap';
   private urlCommesse = 'http://localhost:8080/commessaOs';
   private urlcreateRichiesta = 'http://localhost:8080/richiesta/new';
+  private urlStorico =`http://localhost:8080/richiesta/storico/${this.currentPage}-${this.pageSize}`;
 
   loginPost(data: any):Observable<any>{
     return this.http.post<any>(this.urlLogin, data,{observe: 'response'}).pipe(
@@ -153,8 +154,6 @@ richiestaSingolaPost(dati: any)  {
     //return; // Interrompe l'esecuzione del metodo se l'access_token non è presente
   }
 
-
- 
   const headers = new HttpHeaders()
   .set('Content-Type', 'application/json')
   .set('Authorization', `Bearer ${accessToken}`);
@@ -162,11 +161,67 @@ richiestaSingolaPost(dati: any)  {
  return this.http.post<any>(this.urlRichieste,dati , { headers });
 }
 
+richiestaStoricoPost(id: number) :Observable<any> {
+  // Verifica se c'è un access_token nel localStorage
+  const accessToken = localStorage.getItem('access_token');
+  if (!accessToken) {
+    console.error('Access token non trovato nel localStorage.');
+    //return; // Interrompe l'esecuzione del metodo se l'access_token non è presente
+  }
+  const body={
+    "erroreDTO": null,
+    "filtri": {
+        "id":id
+    },
+    "elenco": null
+}
+  const headers = new HttpHeaders()
+  .set('Content-Type', 'application/json')
+  .set('Authorization', `Bearer ${accessToken}`);
+
+ return this.http.post<any>(this.urlStorico,body , { headers });
+}
+
+  richiestePostFiltrata( dati: any /* , oggetto: any, statoRichiestaConsapId: any, 
+   statoApprovazioneConsapId: any, statoApprovazioneOsId: any, statoRichiestaOsId: any */ ): Observable<any> {
+  // Verifica se c'è un access_token nel localStorage
+  const accessToken = localStorage.getItem('access_token');
+  if (!accessToken) {
+    console.error('Access token non trovato nel localStorage.');
+    //return; // Interrompe l'esecuzione del metodo se l'access_token non è presente
+  }
 
 
+ // const url = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}`;
+  /*  const body = {
+      erroreDTO: null,
+      filtri: {
+        "id": null,
+        "numeroTicket": null,
+        "applicativoId": applicativoId,
+        "oggetto": null,
+        "statoRichiestaConsapId": null,
+        "dataCreazione": null,
+        "statoApprovazioneConsapId": null,
+        "statoApprovazioneOsId": null,
+        "statoRichiestaOsId": null,
+        "dataStimaFinale": null,
+        "importo": null,
+        "commessaOsId": null
+      },
+      elenco: null, 
+    
+  }; */
+  const headers = new HttpHeaders()
+  .set('Content-Type', 'application/json')
+  .set('Authorization', `Bearer ${accessToken}`);
 
+ return this.http.post<any>(this.urlRichieste, dati, { headers });
+}
 
+ 
 
+ 
 
 
 

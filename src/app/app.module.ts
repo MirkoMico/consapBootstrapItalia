@@ -17,6 +17,7 @@ import { NavbarComponent } from './componenti/navbar/navbar.component';
 import { ElencoComponent } from './componenti/elenco/elenco.component';
 import { InserimentoComponent } from './componenti/inserimento/inserimento.component';
 import { VisualizzaComponent } from './componenti/visualizza/visualizza.component';
+import { FiltriComponent } from './componenti/filtri/filtri.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { VisualizzaComponent } from './componenti/visualizza/visualizza.componen
     NavbarComponent,
     ElencoComponent,
     InserimentoComponent,
-    VisualizzaComponent
+    VisualizzaComponent,
+    FiltriComponent
   ],
   imports: [
     BrowserModule,

@@ -8,24 +8,28 @@
 
 <div class="container text-white">
 
-    <form class="marContenitore" [formGroup]="addRichiestaForm" (ngSubmit)="onSubmit()">
+    <form class="marContenitore" >
     <!-- Prima Riga -->
     <div class="row">
         <div class="col-md-3">
             <label for="numeroTicket">Numero Ticket</label>
-            <input type="text" class="form-control" formControlName="numeroTicket"
-             id="numeroTicket" placeholder="Inserisci numero ticket" maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            <input type="text" class="form-control" id="numeroTicket" placeholder="Inserisci numero ticket" maxlength="5"
+                    (input)="checkNumeroTicket($event)">
+                <span *ngIf="showErrorNumeroTicket" class="text-light">5 caratteri obbligatori</span>
         </div>
+
+
+
         <div class="col-md-6">
             <label for="oggetto">Oggetto</label>
             <input type="text" class="form-control"
-            formControlName="oggetto" id="oggetto" placeholder="Inserisci oggetto">
+             id="oggetto" placeholder="Inserisci oggetto">
         </div>
 
 
         <div class="col-md-3">
             <label for="applicativo">Applicativo</label>
-            <select id="applicativo" class="form-control custom-select" formControlName="applicativo">
+            <select id="applicativo" class="form-control custom-select" >
                 <option disabled selected hidden value="">- Selezione Applicativo -</option>
                 <ng-container *ngFor="let app of applicativo">
                     <option value="{{app.applicativoId}}">
@@ -45,8 +49,8 @@
         <div class="col-md-3">
             <label for="statoRichiestaConsap">Stato Richiesta CONSAP</label>
         
-            <select id="statoRichiestaConsap" class="form-control custom-select" formControlName="statoRichiestaConsap">
-                <option disabled selected hidden value="">- Selezione Stato Richiesta Consap -</option>
+            <select id="statoRichiestaConsap" class="form-control custom-select" >
+                <option value="">- Selezione Stato Richiesta Consap -</option>
                 <option *ngIf="statoRichiestaConsap.length > 0" value="{{ statoRichiestaConsap[0].statoRichiestaConsapId }}">
                     {{ statoRichiestaConsap[0].descStatoRichiestaConsap }}
                 </option>
@@ -56,8 +60,8 @@
 
         <div class="col-md-3">
             <label for="statoRichiestaOs">Stato Richiesta OS</label>
-            <select id="statoRichiestaConsap" class="form-control custom-select" formControlName="statoRichiestaOs">
-                <option disabled selected hidden value="">- Selezione Stato Richiesta Os -</option>
+            <select id="statoRichiestaOs" class="form-control custom-select" >
+                <option  value="">- Selezione Stato Richiesta Os -</option>
                 <option *ngIf="statoRichiestaOs.length > 0" value="{{ statoRichiestaOs[0].statoRichiestaOsId }}">
                     {{ statoRichiestaOs[0].descStatoRichiestaOs }}
                 </option>
@@ -65,8 +69,8 @@
         </div>
         <div class="col-md-3">
             <label for="statoApprovazioneConsap">Stato Approvazione CONSAP</label>
-            <select id="statoApprovazioneConsap" class="form-control custom-select" formControlName="statoApprovazioneConsap">
-                <option disabled selected hidden value="">- Selezione Stato Approvazione Consap -</option>
+            <select id="statoApprovazioneConsap" class="form-control custom-select" >
+                <option  value="">- Selezione Stato Approvazione Consap -</option>
                 <option *ngIf="statoApprovazioneConsap.length > 0" value="{{ statoApprovazioneConsap[0].statoApprovazioneConsapId }}">
                     {{ statoApprovazioneConsap[0].descStatoApprovazioneConsap }}
                 </option>
@@ -74,8 +78,8 @@
         </div>
         <div class="col-md-3">
             <label for="statoApprovazioneOs">Stato Approvazione OS</label>
-            <select id="statoApprovazioneOs" class="form-control custom-select"  formControlName="statoApprovazioneOs">
-                <option disabled selected hidden value="">- Selezione Stato Approvazione OS -</option>
+            <select id="statoApprovazioneOs" class="form-control custom-select"  >
+                <option value="">- Selezione Stato Approvazione OS -</option>
                 <option *ngIf="statoApprovazioneOs.length > 0" value="{{ statoApprovazioneOs[0].statoApprovazioneOsId }}">
                     {{ statoApprovazioneOs[0].descStatoApprovazioneOs }}
                 </option>
@@ -86,16 +90,17 @@
     <div class="row">
         <div class="col-md-3">
             <label for="dataCreazione">Data Creazione</label>
-            <input type="date" class="form-control" id="dataCreazione" formControlName="dataCreazione">
+            <input type="date" class="form-control" id="dataCreazione" >
         </div>
         <div class="col-md-3">
             <label for="dataStimaFinale">Data Stima Fine</label>
-            <input type="date" class="form-control" id="dataStimaFinale" formControlName="dataStimaFine">
+            <input type="date" class="form-control" id="dataStimaFinale" 
+           >
         </div>
         <div class="col-md-3">
             <label for="commessaOs">Commessa OS</label>
-            <select id="commessaOs" class="form-control custom-select" formControlName="commessaOs">
-                <option disabled selected hidden value="">- Commessa OS -</option>
+            <select id="commessaOs" class="form-control custom-select" >
+                <option  value="">- Commessa OS -</option>
                 <ng-container *ngFor="let com of commessaOs">
                     <option value="{{com.commessaOsId}}">
                         {{ com.codiceCommessaOs }}
@@ -106,14 +111,35 @@
         <div class="col-md-3">
             <label for="importo">Importo</label>
             <input type="text" class="form-control" id="importo"
-            formControlName="importo" placeholder="Inserisci importo" oninput="this.value = this.value.replace(/[^0-9.]/g, '')"
+             placeholder="Inserisci importo" oninput="this.value = this.value.replace(/[^0-9.]/g, '')"
             >
         </div>
     </div>
     <br>
     <div class="btn-example">
-        <button type="submit" class="btn btn-primary " >Salva</button>
+        <button type="button" class="btn btn-primary " (click)="openSalva()" >Salva</button>
       </div>
     </form>
 </div>
+
+<div class="it-example-modal">
+    <div class="modal" tabindex="-1" role="dialog" id="modal1" aria-labelledby="modal1Title" aria-describedby="modal1Description">
+       <div class="modal-dialog" role="document">
+          <div class="modal-content">
+             <div class="modal-header">
+                <h2 class="modal-title h5 " id="modal1Title">Confermi Inserimento Richiesta?</h2>
+             </div>
+             <div class="modal-body">
+                <p id="modal1Description">Vuoi confermare l'inserimento della richiesta</p>
+                
+             </div>
+             <div class="modal-footer">
+                <button class="btn btn-outline-primary btn-sm" type="button" data-bs-dismiss="modal" (click)="chiudiSalva()">Annulla</button>
+                <button class="btn btn-primary btn-sm" type="button" (click)="addRichiesta(); chiudiSalva(); refreshPage()">Conferma</button>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+
 
