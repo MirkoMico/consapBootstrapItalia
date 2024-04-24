@@ -1,0 +1,214 @@
+<app-navbar></app-navbar>
+<article  >
+
+
+    <app-percorso [breadcrumbNames]="['Home', 'Elenco', 'Modifica']"></app-percorso>
+    
+    <div class="it-header-slim-left-zone" >Modifica <span class="badge bg-primary">Richieste</span></div>
+    </article>
+    <p></p>
+
+    <div class="container text-white">
+
+        <form class="marContenitore" >
+        <!-- Prima Riga -->
+        <div class="row">
+            <div class="col-md-3">
+                <label for="numeroTicket">Numero Ticket</label>
+                <input type="text" id="numeroTicket"  class="form-control" readonly  [value]="rich?.numeroTicket"/>
+            </div>
+            <div class="col-md-6">
+                <label for="oggetto">Oggetto</label>
+                <input type="text" id="oggetto"  class="form-control" readonly [value]="rich?.oggetto"/>
+            </div>
+    
+    
+            <div class="col-md-3">
+                <label for="applicativo">Applicativo</label>
+                <input type="text" id="applicativo"  class="form-control" readonly [value]="rich?.applicativo.descApplicativo"/>
+            </div>
+    
+    
+    
+        </div>
+        <!-- 2a Riga -->
+        <div class="row">
+            <!-- <div class="col-md-3">
+                <label for="statoRichiestaConsap">Stato Richiesta CONSAP</label>
+                <select id="statoRichiestaConsap" class="form-control custom-select" >
+
+                    <option value="-">-</option>
+                    
+                    <ng-container *ngFor="let app of statoRichiestaConsap; let i = index">
+                        <option *ngIf="rich?.statoRichiestaConsap.statoRichiestaConsapId === app.statoRichiestaConsapId 
+                        || rich?.statoRichiestaConsap.statoRichiestaConsapId === statoRichiestaConsap[i - 1]?.statoRichiestaConsapId"
+                         value="{{ app.statoRichiestaConsapId }}">
+                         {{ app.descStatoRichiestaConsap }}
+                        </option>
+                    </ng-container>  
+                </select>
+            </div> -->
+
+            <div class="col-md-3">
+                <label for="statoRichiestaConsap">Stato Richiesta CONSAP</label>
+                <select id="statoRichiestaConsap" class="form-control custom-select">
+                    <ng-container *ngIf="!rich?.statoRichiestaConsap">
+                        <option value="-">-</option>
+                        <option *ngIf="statoRichiestaConsap.length > 0" value="{{ statoRichiestaConsap[0]?.statoRichiestaConsapId }}">
+                            {{ statoRichiestaConsap[0]?.descStatoRichiestaConsap }}
+                        </option>
+                    </ng-container>
+                    <ng-container *ngFor="let app of statoRichiestaConsap; let i = index">
+                        <option *ngIf="rich?.statoRichiestaConsap && (rich?.statoRichiestaConsap.statoRichiestaConsapId === app.statoRichiestaConsapId 
+                            || rich?.statoRichiestaConsap.statoRichiestaConsapId === statoRichiestaConsap[i - 1]?.statoRichiestaConsapId)"
+                            value="{{ app.statoRichiestaConsapId }}">
+                            {{ app.descStatoRichiestaConsap }}
+                        </option>
+                    </ng-container>  
+                </select>
+            </div>
+            
+            
+           
+            
+    
+    
+            <div class="col-md-3">
+                <label for="statoRichiestaOs">Stato Richiesta OS</label>
+                <select id="statoRichiestaOs" class="form-control custom-select" >
+                    <ng-container *ngIf="!rich?.statoRichiestaOs">
+                        <option value="-">-</option>
+                        <option *ngIf="statoRichiestaOs.length > 0" value="{{ statoRichiestaOs[0]?.statoRichiestaOsId }}">
+                            {{ statoRichiestaOs[0]?.descStatoRichiestaOs }}
+                        </option>
+                    </ng-container>
+                    <ng-container *ngFor="let app of statoRichiestaOs; let i = index">
+                        <option *ngIf="rich?.statoRichiestaOs && (rich?.statoRichiestaOs.statoRichiestaOsId === app.statoRichiestaOsId 
+                            || rich?.statoRichiestaOs.statoRichiestaOsId === statoRichiestaOs[i - 1]?.statoRichiestaOsId)"
+                            value="{{ app.statoRichiestaOsId }}">
+                            {{ app.descStatoRichiestaOs }}
+                        </option>
+                    </ng-container>  
+                </select>
+            </div>
+
+
+
+
+            <div class="col-md-3">
+                <label for="statoApprovazioneConsap">Stato Approvazione CONSAP</label>
+                <select id="statoApprovazioneConsap" class="form-control custom-select" >
+                    <ng-container *ngIf="!rich?.statoApprovazioneConsap">
+                        <option value="-">-</option>
+                        <option *ngIf="statoApprovazioneConsap.length > 0" value="{{ statoApprovazioneConsap[0]?.statoApprovazioneConsapId }}">
+                            {{ statoApprovazioneConsap[0]?.descStatoApprovazioneConsap }}
+                        </option>
+                    </ng-container>
+                    <ng-container *ngFor="let app of statoApprovazioneConsap; let i = index">
+                        <option *ngIf="rich?.statoApprovazioneConsap && (rich?.statoApprovazioneConsap.statoApprovazioneConsapId === app.statoApprovazioneConsapId 
+                            || rich?.statoApprovazioneConsap.statoApprovazioneConsapId === statoApprovazioneConsap[i - 1]?.statoApprovazioneConsapId)"
+                            value="{{ app.statoApprovazioneConsapId }}">
+                            {{ app.descStatoApprovazioneConsap }}
+                        </option>
+                    </ng-container>  
+                </select>
+            </div>
+
+
+
+            <div class="col-md-3">
+                <label for="statoApprovazioneOs">Stato Approvazione OS</label>
+                <select id="statoApprovazioneOs" class="form-control custom-select">
+
+                    <ng-container *ngIf="!rich?.statoApprovazioneOs">
+                        <option value="-">-</option>
+                        <option *ngIf="statoApprovazioneOs.length > 0" value="{{ statoApprovazioneOs[0]?.statoApprovazioneOsId }}">
+                            {{ statoApprovazioneOs[0]?.descStatoApprovazioneOs }}
+                        </option>
+                    </ng-container>
+                    <ng-container *ngFor="let app of statoApprovazioneOs; let i = index">
+                        <option *ngIf="rich?.statoApprovazioneOs && (rich?.statoApprovazioneOs.statoApprovazioneOsId === app.statoApprovazioneOsId 
+                            || rich?.statoApprovazioneOs.statoApprovazioneOsId === statoApprovazioneOs[i - 1]?.statoApprovazioneOsId)"
+                            value="{{ app.statoApprovazioneOsId }}">
+                            {{ app.descStatoApprovazioneOs }}
+                        </option>
+                    </ng-container>  
+                    
+                </select>
+            </div>
+            
+
+
+            
+            
+        </div>
+        <!-- 3a Riga -->
+        <div class="row">
+            <div class="col-md-3">
+                <label for="dataCreazione">Data Creazione</label>
+                <input type="text" id="dataCreazione"  class="form-control" readonly [value]="rich?.dataCreazione"/>
+            </div>
+            <div class="col-md-3">
+                <label for="dataStimaFinale">Data Stima Fine</label>
+                <input type="date" id="dataStimaFinale"  class="form-control" [value]="rich?.dataStimaFinale" />
+            </div>
+
+            <div class="col-md-3">
+                <label for="commessaOs">Commessa OS</label>
+                <select id="commessaOs" class="form-control custom-select" >
+                   <!--  <ng-container *ngIf="!rich?.commessaOs">
+                        <option value="">-</option>
+                        <option *ngIf="commessaOs.length > 0" value="{{ commessaOs[0]?.commessaOsId }}">
+                            {{ commessaOs[0]?.codiceCommessaOs }}
+                        </option>
+                    </ng-container>
+                    <ng-container *ngFor="let app of commessaOs; let i = index">
+                        <option *ngIf="rich?.commessaOs && (rich?.commessaOs.commessaOsId === app.commessaOsId 
+                            || rich?.commessaOs.commessaOsId === commessaOs[i - 1]?.commessaOsId)"
+                            value="{{ app.commessaOsId }}">
+                            {{ app.codiceCommessaOs }}
+                        </option>
+                    </ng-container>   -->
+                    
+                    <option  *ngFor="let commessa of commessaOs" value={{commessa.commessaOsId}}  >
+                        {{commessa.codiceCommessaOs}}</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="importo">Importo</label>
+                
+                <input type="text" class="form-control" id="importo"
+                 oninput="this.value = this.value.replace(/[^0-9.]/g, '')"
+             autocomplete="off"
+            [value]="rich?.importo ? rich?.importo : '0' " >
+            </div>
+        </div>
+        <br>
+        <div class="btn-example">
+            <button type="submit" class="btn btn-primary" (click)="openModal()"  >Modifica</button>
+          </div>
+        </form>
+    </div>
+
+
+    <div class="it-example-modal">
+        <div class="modal" tabindex="-1" role="dialog" id="modal1" aria-labelledby="modal1Title" aria-describedby="modal1Description">
+           <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                 <div class="modal-header">
+                    <h2 class="modal-title h5 " id="modal1Title">Confermi modifica Richiesta?</h2>
+                 </div>
+                 <div class="modal-body">
+                    <p id="modal1Description">Vuoi confermare la modifica della richiesta
+                         numero ticket: {{rich.numeroTicket}}
+                    </p>
+                    
+                 </div>
+                 <div class="modal-footer">
+                    <button class="btn btn-outline-primary btn-sm" type="button" data-bs-dismiss="modal" (click)="chiudiModal()">Annulla</button>
+                    <button class="btn btn-primary btn-sm" type="button" (click)="modificaRichiesta(); chiudiModal(); refreshPage()">Conferma</button>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>

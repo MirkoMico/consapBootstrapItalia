@@ -1,14 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormControl,
   ReactiveFormsModule,
   Validators,
+  FormBuilder,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChiamateService } from '../../chiamate.service';
 import { AuthService } from '../../auth/auth.service';
+import { LocalStorageService } from 'angular-web-storage';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +19,12 @@ import { AuthService } from '../../auth/auth.service';
 
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   showPassword: boolean = false;
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
-
+  
   useForm: FormGroup;
 
  /*  showError: boolean = false;
@@ -33,15 +35,29 @@ export class LoginComponent {
   constructor(
     private chiamateService: ChiamateService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private fb: FormBuilder, private localStorage: LocalStorageService
   ) {
     this.useForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
+     
+      
     });
   }
+  ngOnInit(): void {
+    
+  }
+
+  
+
+
 
     onSubmit() {
+
+      
+
+
       const data = {
         username: this.useForm.get('username')?.value,
         password: this.useForm.get('password')?.value,

@@ -18,6 +18,11 @@ import { ElencoComponent } from './componenti/elenco/elenco.component';
 import { InserimentoComponent } from './componenti/inserimento/inserimento.component';
 import { VisualizzaComponent } from './componenti/visualizza/visualizza.component';
 import { FiltriComponent } from './componenti/filtri/filtri.component';
+import { ModificaComponent } from './componenti/modifica/modifica.component';
+import { PercorsoComponent } from './componenti/percorso/percorso.component';
+import { HomeaccessoComponent } from './componenti/homeaccesso/homeaccesso.component';
+import { JwtModule } from '@auth0/angular-jwt';
+
 
 
 @NgModule({
@@ -30,7 +35,10 @@ import { FiltriComponent } from './componenti/filtri/filtri.component';
     ElencoComponent,
     InserimentoComponent,
     VisualizzaComponent,
-    FiltriComponent
+    FiltriComponent,
+    ModificaComponent,
+    PercorsoComponent,
+    HomeaccessoComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +48,15 @@ import { FiltriComponent } from './componenti/filtri/filtri.component';
     HttpClientModule,
     CommonModule,
     ReactiveFormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('access_token');
+        },
+        allowedDomains: ['example.com'], // Domini consentiti (se necessario)
+        disallowedRoutes: ['http://example.com/api/auth'] // Rotte non consentite (se necessario)
+      }
+    })
 
     
   ],

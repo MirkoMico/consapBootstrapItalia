@@ -1,5 +1,7 @@
 <app-navbar></app-navbar>
 <article  >
+
+    <app-percorso [breadcrumbNames]="['Home', 'Inserimento']"></app-percorso>
     
     <div class="it-header-slim-left-zone" >Inserimento <span class="badge bg-primary">Richieste</span></div>
     </article>
@@ -14,7 +16,7 @@
         <div class="col-md-3">
             <label for="numeroTicket">Numero Ticket</label>
             <input type="text" class="form-control" id="numeroTicket" placeholder="Inserisci numero ticket" maxlength="5"
-                    (input)="checkNumeroTicket($event)">
+                    (input)="checkNumeroTicket($event)" autocomplete="off">
                 <span *ngIf="showErrorNumeroTicket" class="text-light">5 caratteri obbligatori</span>
         </div>
 
@@ -23,7 +25,7 @@
         <div class="col-md-6">
             <label for="oggetto">Oggetto</label>
             <input type="text" class="form-control"
-             id="oggetto" placeholder="Inserisci oggetto">
+             id="oggetto" placeholder="Inserisci oggetto" autocomplete="off">
         </div>
 
 
@@ -50,7 +52,8 @@
             <label for="statoRichiestaConsap">Stato Richiesta CONSAP</label>
         
             <select id="statoRichiestaConsap" class="form-control custom-select" >
-                <option value="">- Selezione Stato Richiesta Consap -</option>
+               <!--  <option value="">- Selezione Stato Richiesta Consap -</option> -->
+               <option value="">-</option>
                 <option *ngIf="statoRichiestaConsap.length > 0" value="{{ statoRichiestaConsap[0].statoRichiestaConsapId }}">
                     {{ statoRichiestaConsap[0].descStatoRichiestaConsap }}
                 </option>
@@ -61,7 +64,7 @@
         <div class="col-md-3">
             <label for="statoRichiestaOs">Stato Richiesta OS</label>
             <select id="statoRichiestaOs" class="form-control custom-select" >
-                <option  value="">- Selezione Stato Richiesta Os -</option>
+                <option  value="">-</option>
                 <option *ngIf="statoRichiestaOs.length > 0" value="{{ statoRichiestaOs[0].statoRichiestaOsId }}">
                     {{ statoRichiestaOs[0].descStatoRichiestaOs }}
                 </option>
@@ -70,7 +73,7 @@
         <div class="col-md-3">
             <label for="statoApprovazioneConsap">Stato Approvazione CONSAP</label>
             <select id="statoApprovazioneConsap" class="form-control custom-select" >
-                <option  value="">- Selezione Stato Approvazione Consap -</option>
+                <option  value="">-</option>
                 <option *ngIf="statoApprovazioneConsap.length > 0" value="{{ statoApprovazioneConsap[0].statoApprovazioneConsapId }}">
                     {{ statoApprovazioneConsap[0].descStatoApprovazioneConsap }}
                 </option>
@@ -79,7 +82,7 @@
         <div class="col-md-3">
             <label for="statoApprovazioneOs">Stato Approvazione OS</label>
             <select id="statoApprovazioneOs" class="form-control custom-select"  >
-                <option value="">- Selezione Stato Approvazione OS -</option>
+                <option value="">-</option>
                 <option *ngIf="statoApprovazioneOs.length > 0" value="{{ statoApprovazioneOs[0].statoApprovazioneOsId }}">
                     {{ statoApprovazioneOs[0].descStatoApprovazioneOs }}
                 </option>
@@ -112,6 +115,7 @@
             <label for="importo">Importo</label>
             <input type="text" class="form-control" id="importo"
              placeholder="Inserisci importo" oninput="this.value = this.value.replace(/[^0-9.]/g, '')"
+             autocomplete="off"
             >
         </div>
     </div>

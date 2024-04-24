@@ -1,10 +1,19 @@
 <app-navbar></app-navbar>
-<!--  <app-filtri></app-filtri> -->
+  <!-- <app-filtri></app-filtri> -->
+  <!-- <app-filtri (filtriCambiati)="($event)"></app-filtri> -->
+  <app-percorso [breadcrumbNames]="['Home', 'Elenco']"></app-percorso>
+
+
+<article  >
+    
+  <div class="it-header-slim-left-zone" >Elenco <span class="badge bg-primary">Richieste</span></div>
+  </article>
+  <p></p>
  
 <!-- ------filtri------
  -->
  
- <div class="dropdown dropstart text-center ">
+  <div class="dropdown dropstart text-center ">
   <a class="btn btn-dropdown dropdown-toggle" role="button" id="dropdownMenuDropleft" 
     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="apriDropdown()" style="color: #fff;">
     <svg class="icon-expand icon icon-sm icon-light" *ngIf="!isDropdownOpen"><use href="#it-expand"></use></svg>
@@ -129,7 +138,7 @@
       </ul>
     </div>
   </div>
-</div>
+</div> 
 
 
 <!-- ---------fine filtri--------- -->
@@ -163,12 +172,15 @@
     <thead>
       <tr >
         <!-- <th scope="col">#</th> -->
-        <th scope="col">Numero Ticket</th>
+        <th scope="col">Numero Ticket <svg class="icon icon-primary"><use href="#it-expand" ></use></svg></th>
         <th scope="col">Applicativo</th>
         <th scope="col">Oggetto</th>
-        <th scope="col">Data Creazione</th>
-        <th scope="col">Stato Richiesta Consap</th>
+       <!--  <th scope="col">Data Creazione <svg class="icon icon-primary" ><use href="#it-expand" ></use></svg></th> -->
+       <th scope="col">Data Creazione <svg class="icon icon-primary" (click)="changeDataPag();"><use href="#it-expand"></use></svg></th>
+
+       <!--  <th scope="col">Stato Richiesta Consap</th> -->
         <th scope="col">Azioni</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -178,8 +190,11 @@
             <td>{{richiesta.oggetto}}</td>
            
             <td>{{richiesta.dataCreazione}}</td>
-            <td>{{richiesta.statoRichiestaConsap.descStatoRichiestaConsap}}</td>
-            <th><button type="button"  class="btn btn-block btn-outline-primary btn-sm" (click)="redirect(richiesta)">Visualizza</button></th> 
+          <!--   <td>{{richiesta.statoRichiestaConsap.descStatoRichiestaConsap}}</td> -->
+            <th><button type="button"  class="btn btn-block btn-outline-primary btn-sm" (click)="redirectVisualizza(richiesta)">Visualizza</button>
+            
+            
+            <button type="button"  class="btn btn-block btn-outline-primary btn-sm" (click)="redirectModifica(richiesta)">Modifica</button></th> 
            <!--   <th><button type="button"  class="btn btn-block btn-outline-success btn-sm" >Modifica</button></th>  --> 
            
 
@@ -188,30 +203,37 @@
   </table>
 
  <!--  --------page---------- -->
- <nav class="pagination-wrapper" aria-label="Esempio di navigazione con page changer">
+  <nav class="pagination-wrapper" aria-label="Esempio di navigazione con page changer">
   <ul class="pagination">
-    <li class="page-item">
-      <a class="page-link" href="#">
-        <svg class="icon icon-primary"><use href="#it-chevron-left"></use></svg>
-        <span class="visually-hidden">Pagina precedente</span>
-      </a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><span class="page-link">...</span></li>
-    <li class="page-item"><a class="page-link" href="#">24</a></li>
-    <li class="page-item"><a class="page-link" href="#">25</a></li>
+
     <li class="page-item active">
-      <a class="page-link" href="#" aria-current="page">
-        <span class="d-inline-block d-sm-none">Pagina </span>26
+      <a class="page-link"  aria-current="page">
+        <span class="d-inline-block d-sm-none">Pagina </span>Pag: {{currentPage}} di {{totalPages}}
       </a>
     </li>
-    <li class="page-item"><a class="page-link" href="#">27</a></li>
-    <li class="page-item"><a class="page-link" href="#">28</a></li>
+
+
+
+    <li class="page-item cursore" (click)="paginaPrecedente()" >
+      <a class="page-link" >
+        <svg class="icon icon-primary"><use href="#it-chevron-left" ></use></svg>
+        <span class="visually-hidden" >Pagina precedente</span>
+      </a>
+    </li>
+    <li class="page-item cursore"><a class="page-link cursore" value="1" (click)="prendiNumeroPagina($event)" >1</a></li>
     <li class="page-item"><span class="page-link">...</span></li>
-    <li class="page-item"><a class="page-link" href="#">50</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">
-        <span class="visually-hidden">Pagina successiva</span>
+    
+    <li class="page-item active">
+      <a class="page-link"  aria-current="page">
+        <span class="d-inline-block d-sm-none">Pagina </span>{{currentPage}}
+      </a>
+    </li>
+    
+    <li class="page-item"><span class="page-link">...</span></li>
+    <li class="page-item cursore"><a class="page-link"   (click)="prendiNumeroPagina($event)" >{{totalPages}}</a></li>
+    <li class="page-item cursore" >
+      <a class="page-link" (click)="paginaSuccessiva()">
+        <span class="visually-hidden" >Pagina successiva</span>
         <svg class="icon icon-primary"><use href="#it-chevron-right"></use></svg>
       </a>
     </li>
@@ -225,16 +247,17 @@
     <div class="dropdown-menu" aria-labelledby="pagerChanger" id="pagerChanger" >
       <div class="link-list-wrapper">
         <ul class="link-list">
-           <li><a class="list-item active cursore "  value="5" (click)="cambiaDimensionePagina($event)" aria-current="page" ><span>5/pagina</span></a></li>
-           <li><a class="dropdown-item list-item cursore" value="10" (click)="cambiaDimensionePagina($event)"><span>10/pagina</span></a></li>
-           <li><a class="dropdown-item list-item cursore" value="20" (click)="cambiaDimensionePagina($event)"><span>20/pagina</span></a></li>
-           <!-- <li><a class="dropdown-item list-item" href="#"><span>40/pagina</span></a></li>
-           <li><a class="dropdown-item list-item" href="#"><span>50/pagina</span></a></li> -->
+           <li><a class="list-item active cursore "  value="5" (click)="cambiaDimensionePagina($event);apriChiudiDropdown()" aria-current="page" ><span>5/pagina</span></a></li>
+           <li><a class="dropdown-item list-item cursore" value="10" (click)="cambiaDimensionePagina($event);apriChiudiDropdown()"><span>10/pagina</span></a></li>
+           <li><a class="dropdown-item list-item cursore" value="20" (click)="cambiaDimensionePagina($event); apriChiudiDropdown()"><span>20/pagina</span></a></li>
+        
         </ul>
       </div>
     </div>
   </div>
-</nav>
+</nav> 
+
+
 
 
  <!-- --------finePage------ -->

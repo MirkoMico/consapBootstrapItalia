@@ -13,7 +13,7 @@
     height: 100%;
     z-index: -1;
   }
-   .cont {
+   .container {
     background-color: rgba(17, 33, 17, 0.498);
     padding: 20px; /* Aggiungi spaziatura interna per la leggibilità */
   }
@@ -29,19 +29,4 @@
   
     margin-top: 10px;
   }
-  table{
-    margin-left: 10px;
-    margin-right: 10px;
-
-  }
-  .cursore {
-    cursor: pointer;
-  }
-
-  .pagination-wrapper {
-    display: flex; 
-   justify-content: center; 
-  /*  align-items: center; */
-   /* margin-top: 20px; */
- }
  

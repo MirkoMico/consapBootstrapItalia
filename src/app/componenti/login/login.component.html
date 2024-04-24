@@ -32,14 +32,14 @@
                         <span *ngIf="useForm.controls['password'].errors?.['required']">Password obbligatorio</span>
                     </div>
             </div>
-            <div class="col-6 col-md-3 offset-md-6 offset-lg-0 col-lg-auto">
+           <!--  <div class="col-6 col-md-3 offset-md-6 offset-lg-0 col-lg-auto">
                 <div class="form-check m-0">
-                    <input class="form-check-input" type="checkbox" id="autoSizingCheck">
+                    <input class="form-check-input" type="checkbox"  id="autoSizingCheck" >
                     <label class="form-check-label" for="autoSizingCheck">
                         Ricordami
                     </label>
                 </div>
-            </div>
+            </div> -->
             <div class="col-6 col-md-3 col-lg-auto d-flex justify-content-end" >
                 <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="!useForm.valid">Invia</button>
 

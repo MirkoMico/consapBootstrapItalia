@@ -18,7 +18,9 @@ article {
     z-index: -1;
   }
   .table {
-    opacity: 0.9; 
+    opacity: 0.9;
+   /*  margin-left: 20px; 
+    margin-right: 40px; */
   }
 
   .argomento{
@@ -110,5 +112,19 @@ article {
   cursor: pointer;
 }
  
+article {
+  font-size: 35px; /* Cambia la dimensione del testo */
+  margin-bottom: 40px; /* Aggiunge margine inferiore */
+ 
+  text-align: center;
+
+  margin-top: 10px;
+}
+
+.icon-expand::before {
+  content: '\f065'; /* Codice dell'icona "expand" di Font Awesome */
+  font-family: 'Font Awesome'; /* Famiglia di caratteri di Font Awesome */
+  margin-right: 5px; /* Spazio tra l'icona e il testo */
+}
 
 

@@ -9,6 +9,8 @@ import { Richieste } from '../../richieste';
 })
 export class FiltriComponent implements OnInit {
 
+  @Output() filtriCambiati: EventEmitter<Richieste[]> = new EventEmitter<Richieste[]>();
+
   
 
   constructor(private chiamateService: ChiamateService) { }
@@ -131,6 +133,7 @@ filtraRichieste(){
   this.chiamateService.richiestePostFiltrata(dati).subscribe(data => {
     this.richieste = data.elenco.content;
     console.log("-------ELENCO RICHIESTE-------", data.elenco.content);
+    this.filtriCambiati.emit(this.richieste);
   },
   error => {
     console.log(error);

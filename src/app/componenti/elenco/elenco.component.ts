@@ -15,13 +15,27 @@ import { Observable } from 'rxjs';
 
 export class ElencoComponent implements OnInit {
 
+ // @Input() filtriCambiati: Richieste[] = [];
+
   
 loading = true;
 showSpinner = true;
 richieste: Richieste[] = [];
 paginaSelezionata: string = '5/pagina';
 
+//paginaSelezionata: string = "5"; // Assicurati che sia inizializzata correttamente
+//paginaTotale: any[] = [1, 2, 3, 4, 5]; // Supponendo che sia un array di numeri
+currentPage: any = 1; // Assicurati che sia inizializzata correttamente
+pageSize: any = 5; // Assicurati che sia inizializzata correttamente
+totalPages: any=0
+  pagesArray = [];
+  pagineVisualizzate: number[] = [];
 
+  sortField: string = 'dataCreazione';
+  sortOrder: string = 'desc';
+
+  
+// Ora hai un array con tutti i numeri di pagina, puoi usare questo array per generare dinamicamente le pagine nel tuo template HTML
 
 
 applicativo: any = [];
@@ -33,7 +47,9 @@ applicativo: any = [];
   isDropdownOpen: boolean = false;
   isFlag: boolean = false;
 
-  constructor(private chiamateService: ChiamateService, private router: Router, private http: HttpClient) {}
+  constructor(private chiamateService: ChiamateService, private router: Router, private http: HttpClient) {
+   
+  }
 
   ngOnInit(): void {
    /*  document.body.style.overflow = 'hidden'; */
@@ -56,10 +72,15 @@ applicativo: any = [];
     
   }
 
+
+ 
   richiestePost(){
     this.chiamateService.richiestePost().subscribe(data => {
       this.richieste = data.elenco.content;
       console.log("-------ELENCO RICHIESTE-------", data.elenco.content);
+      this.totalPages = data.elenco.totalPages;
+      console.log("-------TOTAL PAGES-------", this.totalPages);
+      
       
     })
   }
@@ -67,24 +88,163 @@ applicativo: any = [];
 
 
 
-   cambiaDimensionePagina(event : MouseEvent) {
+    cambiaDimensionePagina(event : MouseEvent) {
     const target = event.target as HTMLElement;
     const valueText = target.textContent || '';
-    const value = parseInt(valueText.split('/')[0].trim(), 10);
-    console.log("Dimensione pagina:", value);
+    const size = parseInt(valueText.split('/')[0].trim(), 10);
+    console.log("Dimensione pagina:", size);
     this.paginaSelezionata = valueText.trim();
 
-   this.paginata(value).subscribe(data => {
+
+    this.pageSize = size;
+   
+
+
+   this.paginata(size).subscribe(data => {
       this.richieste = data.elenco.content;
       console.log("-------ELENCO RICHIESTE-------", data.elenco.content);
-    })
+      this.totalPages = data.elenco.totalPages;
+      console.log("-------TOTAL PAGES-------", this.totalPages);
+      
+    }) 
+  }  
+ 
 
-     
-  } 
+  prendiNumeroPagina(event : MouseEvent) {
+    const target = event.target as HTMLElement;
+    const valueText = target?.textContent || '';
+    const currentPageSelezionato = parseInt(valueText.split('/')[0].trim(), 10);
+    console.log("Dimensione pagina:", currentPageSelezionato);
+   
+    this.currentPage = currentPageSelezionato;
+   
+   this.numeroPaginata(currentPageSelezionato).subscribe(data => {
+      this.richieste = data.elenco.content;
+      console.log("-------ELENCO RICHIESTE-------", data.elenco.content);
+      this.totalPages = data.elenco.totalPages;
+      console.log("-------TOTAL PAGES-------", this.totalPages);
+      
+    }) 
+  }  
+  paginaPrecedente() {
+    if (this.currentPage > 1) {
+     let currentPageCopy = this.currentPage;
+      currentPageCopy--;
+      
+      this.numeroPaginata(currentPageCopy).subscribe(data => {
+        this.currentPage = currentPageCopy;
+        this.richieste = data.elenco.content;
+        console.log("-------ELENCO RICHIESTE-------", data.elenco.content);
+        this.totalPages = data.elenco.totalPages;
+        console.log("-------TOTAL PAGES-------", this.totalPages);
+        
+      })
+      ;
+      console.log("CURRENT PAGE", this.currentPage);
+      
+    }
+  }
+  
+ 
+  paginaSuccessiva() {
+    if (this.currentPage < this.totalPages) {
+      let currentPageCopy = this.currentPage;
+      currentPageCopy++;
+      this.numeroPaginata(currentPageCopy).subscribe(data => {
+        this.currentPage = currentPageCopy;
+        this.richieste = data.elenco.content;
+        console.log("pag corrente", this.currentPage);
+        this.totalPages = data.elenco.totalPages;
+        console.log("-------TOTAL PAGES-------", this.totalPages);
+      });
+      console.log("CURRENT PAGE", this.currentPage);
+    }
+  }
+  
+  
+
+ /*  calcolaPagineVisualizzate() {
+    const numPages = Math.ceil(this.totalPages / this.pageSize);
+    this.pagineVisualizzate = Array.from({ length: numPages }, (_, i) => i + 1);
+    // Se la pagina corrente è oltre l'ultima pagina disponibile, torna alla pagina finale
+    if (this.currentPage > numPages) {
+      this.currentPage = numPages;
+    }
+  } */
+   numeroPaginata(currentPage:any):Observable<any> {
+    //const currentPage = 1;
+      const urlElenco = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}?campo=${this.sortField}&ordinamento=${this.sortOrder}`;
+  
+      const accessToken = localStorage.getItem('access_token');
+      if (!accessToken) {
+        console.log("ACCESS TOKEN NON TROVATO");
+        
+      } 
+
+      
+    const numeroTicketFiltro= (<HTMLInputElement>(document.getElementById("numeroTicketFiltro"))).value;
+    const numeroPars= numeroTicketFiltro==="" ? null : parseInt(numeroTicketFiltro);
+    console.log("NUMERO FILTRO", numeroPars);
+
+    const oggettoFiltro= (<HTMLInputElement>(document.getElementById("oggettoFiltro"))).value;
+    const oggettoPars= oggettoFiltro==="" ? null : String(oggettoFiltro);
+    console.log("OGGETTO FILTRO", oggettoPars);
+
+    const applicativoFiltro= (<HTMLInputElement>(document.getElementById("applicativoFiltro"))).value;
+    const applicativoPars= applicativoFiltro==="" ? null : parseInt(applicativoFiltro) || null;
+    console.log("APPLICATIVO FILTRO", applicativoPars);
+
+    const statoRichiestaConsapFiltro= (<HTMLInputElement>(document.getElementById("statoRichiestaConsapFiltro"))).value;
+    const statoRichiestaConsapPars= statoRichiestaConsapFiltro==="" ? null : parseInt(statoRichiestaConsapFiltro) || null;
+    console.log("STATO RICHIESTA CONSAP FILTRO", statoRichiestaConsapPars);
+
+    const statoRichiestaOsFiltro= (<HTMLInputElement>(document.getElementById("statoRichiestaOsFiltro"))).value;
+    const statoRichiestaOsPars= statoRichiestaOsFiltro==="" ? null : parseInt(statoRichiestaOsFiltro) || null;
+    console.log("STATO RICHIESTA OS FILTRO", statoRichiestaOsPars);
+
+    const statoApprovazioneConsapFiltro= (<HTMLInputElement>(document.getElementById("statoApprovazioneConsapFiltro"))).value;
+    const statoApprovazioneConsapPars= statoApprovazioneConsapFiltro==="" ? null : parseInt(statoApprovazioneConsapFiltro) || null;
+    console.log("STATO APPROVAZIONE CONSAP FILTRO", statoApprovazioneConsapPars); 
+
+    const statoApprovazioneOsFiltro= (<HTMLInputElement>(document.getElementById("statoApprovazioneOsFiltro"))).value;
+    const statoApprovazioneOsPars= statoApprovazioneOsFiltro==="" ? null : parseInt(statoApprovazioneOsFiltro) || null;
+    console.log("STATO APPROVAZIONE OS FILTRO", statoApprovazioneOsPars);
+
+    const dati={ 
+        erroreDTO: null,
+        filtri: {
+          "id": null,
+          "numeroTicket": numeroPars,
+          "applicativo":{"applicativoId": applicativoPars},
+          "oggetto": oggettoPars,
+          "statoRichiestaConsap": {"statoRichiestaConsapId": statoRichiestaConsapPars},
+          "dataCreazione": null,
+          "statoApprovazioneConsap": {"statoApprovazioneConsapId": statoApprovazioneConsapPars},
+          "statoApprovazioneOs": {"statoApprovazioneOsId": statoApprovazioneOsPars},
+          "statoRichiestaOs": {"statoRichiestaOsId": statoRichiestaOsPars},
+          "dataStimaFinale": null,
+          "importo": null,
+          "commessaOsId": null
+        },
+        elenco: null,    
+    };
+    console.log("DATI FILTRO", dati);
+  
+      const headers = new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${accessToken}`);
+  
+      return this.http.post<any>(urlElenco, dati, { headers });
+  }
+
+
+
+  
 
   paginata(size:any):Observable<any> {
-    const currentPage = 1;
-      const urlElenco = `http://localhost:8080/richiesta/${currentPage}-${size}`;
+    //const currentPage = 1;
+     /*  const urlElenco = `http://localhost:8080/richiesta/${this.currentPage}-${size}`; */
+      const urlElenco = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}?campo=${this.sortField}&ordinamento=${this.sortOrder}`;
   
       const accessToken = localStorage.getItem('access_token');
       if (!accessToken) {
@@ -92,38 +252,116 @@ applicativo: any = [];
         
       }
   
-      const body = {
+   
+
+      
+    const numeroTicketFiltro= (<HTMLInputElement>(document.getElementById("numeroTicketFiltro"))).value;
+    const numeroPars= numeroTicketFiltro==="" ? null : parseInt(numeroTicketFiltro);
+    console.log("NUMERO FILTRO", numeroPars);
+
+    const oggettoFiltro= (<HTMLInputElement>(document.getElementById("oggettoFiltro"))).value;
+    const oggettoPars= oggettoFiltro==="" ? null : String(oggettoFiltro);
+    console.log("OGGETTO FILTRO", oggettoPars);
+
+    const applicativoFiltro= (<HTMLInputElement>(document.getElementById("applicativoFiltro"))).value;
+    const applicativoPars= applicativoFiltro==="" ? null : parseInt(applicativoFiltro) || null;
+    console.log("APPLICATIVO FILTRO", applicativoPars);
+
+    const statoRichiestaConsapFiltro= (<HTMLInputElement>(document.getElementById("statoRichiestaConsapFiltro"))).value;
+    const statoRichiestaConsapPars= statoRichiestaConsapFiltro==="" ? null : parseInt(statoRichiestaConsapFiltro) || null;
+    console.log("STATO RICHIESTA CONSAP FILTRO", statoRichiestaConsapPars);
+
+    const statoRichiestaOsFiltro= (<HTMLInputElement>(document.getElementById("statoRichiestaOsFiltro"))).value;
+    const statoRichiestaOsPars= statoRichiestaOsFiltro==="" ? null : parseInt(statoRichiestaOsFiltro) || null;
+    console.log("STATO RICHIESTA OS FILTRO", statoRichiestaOsPars);
+
+    const statoApprovazioneConsapFiltro= (<HTMLInputElement>(document.getElementById("statoApprovazioneConsapFiltro"))).value;
+    const statoApprovazioneConsapPars= statoApprovazioneConsapFiltro==="" ? null : parseInt(statoApprovazioneConsapFiltro) || null;
+    console.log("STATO APPROVAZIONE CONSAP FILTRO", statoApprovazioneConsapPars); 
+
+    const statoApprovazioneOsFiltro= (<HTMLInputElement>(document.getElementById("statoApprovazioneOsFiltro"))).value;
+    const statoApprovazioneOsPars= statoApprovazioneOsFiltro==="" ? null : parseInt(statoApprovazioneOsFiltro) || null;
+    console.log("STATO APPROVAZIONE OS FILTRO", statoApprovazioneOsPars);
+
+    const dati={ 
         erroreDTO: null,
         filtri: {
           "id": null,
-          "numeroTicket": null,
-          "applicativoId": null,
-          "oggetto": null,
-          "statoRichiestaConsapId": null,
+          "numeroTicket": numeroPars,
+          "applicativo":{"applicativoId": applicativoPars},
+          "oggetto": oggettoPars,
+          "statoRichiestaConsap": {"statoRichiestaConsapId": statoRichiestaConsapPars},
           "dataCreazione": null,
-          "statoApprovazioneConsapId": null,
-          "statoApprovazioneOsId": null,
-          "statoRichiestaOsId": null,
+          "statoApprovazioneConsap": {"statoApprovazioneConsapId": statoApprovazioneConsapPars},
+          "statoApprovazioneOs": {"statoApprovazioneOsId": statoApprovazioneOsPars},
+          "statoRichiestaOs": {"statoRichiestaOsId": statoRichiestaOsPars},
           "dataStimaFinale": null,
           "importo": null,
           "commessaOsId": null
         },
-        elenco: null
-      };
+        elenco: null,    
+    };
+    console.log("DATI FILTRO", dati);
   
       const headers = new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${accessToken}`);
   
-      return this.http.post<any>(urlElenco, body, { headers });
+      return this.http.post<any>(urlElenco, dati, { headers });
   }
+  isSortOrderAsc = true;
+
+  // Metodo per cambiare il sortOrder
+  changeSortOrderToAsc(): Observable<any> {
+    // Aggiorna il sortOrder con 'asc'
+    //this.sortOrder = 'asc';
+    this.sortOrder = this.isSortOrderAsc ? 'asc' : 'desc';
+    
+    // Chiamata al metodo numeroPaginata con il nuovo sortOrder 'asc'
+    return this.numeroPaginata(this.currentPage);
+   // return this.chiamateService.richiestePost();
+   
+}
+
+
+changeDataPag() {
+  // Imposta manualmente il numero di pagina su 1
+  this.currentPage = 1;
+
+  // Chiama il metodo per cambiare il sortOrder e aggiornare la tabella
+  this.changeSortOrderToAsc().subscribe(
+    response => {
+      // Gestisci la risposta se necessario
+      console.log(response, "ASC");
+      this.richieste = response.elenco.content;
+      console.log("-------ELENCO RICHIESTE-------", response.elenco.content);
+      this.totalPages = response.elenco.totalPages;
+      console.log("-------TOTAL PAGES-------", this.totalPages);
+
+        // Inverti lo stato dell'ordinamento per la prossima chiamata
+        this.isSortOrderAsc = !this.isSortOrderAsc;
+
+    },
+    error => {
+      console.error('Si è verificato un errore durante il cambio del sortOrder:', error);
+    }
+  );
+}
 
 
 
-  redirect(richiesta:any){
-    console.log(JSON.stringify(richiesta)+"invio?")
+
+  redirectVisualizza(richiestaId:any){
+    /* console.log(JSON.stringify(richiesta)+"invio?")
     console.log("CI SONO")
-    this.router.navigate(["/visualizza"],{queryParams:{pippo : JSON.stringify(richiesta)}});
+    this.router.navigate(["/visualizza"],{queryParams:{pippo : JSON.stringify(richiesta)}}); */
+    localStorage.setItem('idRichiesta', richiestaId.id);
+    this.router.navigate(["/visualizza"]);
+  } 
+  redirectModifica(richiestaId:any){
+    localStorage.setItem('idRichiesta', richiestaId.id);
+    this.router.navigate(["/modifica"]);
+   
   } 
 
   applicativoPost(){

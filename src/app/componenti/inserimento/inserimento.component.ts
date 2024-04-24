@@ -41,20 +41,6 @@ export class InserimentoComponent implements OnInit {
     this.statoApprovazioneOsPost();
     this.commessaOsPost();
 
-    /* this.addRichiestaForm = this.formBuilder.group({
-      numeroTicket: ['', Validators.required], // Esempio di campo richiesto
-      oggetto: ['', Validators.required],
-      applicativo: ['', Validators.required],
-      statoRichiestaConsap: ['', Validators.required],
-      dataCreazione: ['', Validators.required],
-      statoApprovazioneConsap: ['', Validators.required],
-      statoRichiestaOs: ['', Validators.required],
-      statoApprovazioneOs: ['', Validators.required],
-      dataStimaFine: ['', Validators.required],
-      importo: ['', Validators.required],
-      commessaOs: ['', Validators.required],
-      // Aggiungi altri campi se necessario
-    }); */
     
   }
   

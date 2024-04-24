@@ -1,11 +1,21 @@
 <app-navbar></app-navbar>
 <article  >
+
+
+    <app-percorso [breadcrumbNames]="['Home', 'Elenco', 'Visualizza']"></app-percorso>
+
+
+
+
+
+
+
     
     <div class="it-header-slim-left-zone" >Visualizza <span class="badge bg-primary">Richieste</span></div>
     </article>
     <p></p>
 
-    <div class="container text-white">
+    <div class="container text-white cont">
 
         <form class="marContenitore" >
         <!-- Prima Riga -->
@@ -32,7 +42,8 @@
         <div class="row">
             <div class="col-md-3">
                 <label for="statoRichiestaConsap">Stato Richiesta CONSAP</label>
-                <div type="text" id="statoRichiestaConsap"  class="form-control" >{{rich?.statoRichiestaConsap.descStatoRichiestaConsap}}</div>
+                <input type="text" id="statoRichiestaConsap"  class="form-control" [value]="rich?.statoRichiestaConsap ?
+                rich.statoRichiestaConsap.descStatoRichiestaConsap : '-'" >
             
                 
             </div>
@@ -40,15 +51,19 @@
     
             <div class="col-md-3">
                 <label for="statoRichiestaOs">Stato Richiesta OS</label>
-                <div type="text" id="statoRichiestaOs"  class="form-control" >{{rich?.statoRichiestaOs.descStatoRichiestaOs}}</div>
+                <input type="text" id="statoRichiestaOs"  class="form-control" [value]="rich?.statoRichiestaOs ?
+                rich.statoRichiestaOs.descStatoRichiestaOs : '-'" >
+                
             </div>
             <div class="col-md-3">
                 <label for="statoApprovazioneConsap">Stato Approvazione CONSAP</label>
-                <div type="text" id="statoApprovazioneConsap"  class="form-control" >{{rich?.statoApprovazioneConsap.descStatoApprovazioneConsap}}</div>
+                <input type="text" id="statoApprovazioneConsap"  class="form-control" [value]="rich?.statoApprovazioneConsap ?
+                rich.statoApprovazioneConsap.descStatoApprovazioneConsap : '-'" >
             </div>
             <div class="col-md-3">
                 <label for="statoApprovazioneOs">Stato Approvazione OS</label>
-                <div type="text" id="statoApprovazioneOs"  class="form-control" >{{rich?.statoApprovazioneOs.descStatoApprovazioneOs}}</div>
+                <input type="text" id="statoApprovazioneOs"  class="form-control" [value]="rich?.statoApprovazioneOs ?
+                rich.statoApprovazioneOs.descStatoApprovazioneOs : '-'" >
             </div>
         </div>
         <!-- 3a Riga -->
@@ -59,21 +74,23 @@
             </div>
             <div class="col-md-3">
                 <label for="dataStimaFinale">Data Stima Fine</label>
-                <div type="text" id="dataStimaFinale"  class="form-control" >{{rich?.dataStimaFinale}}</div>
+                <input type="text" id="dataStimaFinale"  class="form-control" 
+                [value]="rich?.dataStimaFinale ? rich.dataStimaFinale : 'Data non presente'">
             </div>
             <div class="col-md-3">
                 <label for="commessaOs">Commessa OS</label>
-                <div type="text" id="commessaOs"  class="form-control" >{{rich?.commessaOs.codiceCommessaOs}}</div>
+                <input type="text" id="commessaOs"  class="form-control" [value]="rich?.commessaOs ?
+                rich.commessaOs.codiceCommessaOs : '-'" >
             </div>
             <div class="col-md-3">
                 <label for="importo">Importo</label>
-                <div type="text" id="importo"  class="form-control" >{{rich?.importo}}</div>
+                <input type="text" id="importo"  class="form-control" [value]="rich?.importo ? rich.importo : '0'">
             </div>
         </div>
         <br>
-        <div class="btn-example">
+       <!--  <div class="btn-example">
             <button type="submit" class="btn btn-primary"  >Salva</button>
-          </div>
+          </div> -->
         </form>
     </div>
 
@@ -85,17 +102,17 @@
         <div class="it-header-slim-left-zone" >Visualizza <span class="badge bg-primary">Storico</span></div>
         </article>
         <p></p>
-
+        <div class="container text-white">
 
     <table class="table table-hover table-striped table-bordered table-success">
         <thead>
             <tr >
               <!-- <th scope="col">#</th> -->
-              <th scope="col">Numero Ticket</th>
+          <!--     <th scope="col">Numero Ticket</th>
               <th scope="col">Applicativo</th>
-              <th scope="col">Oggetto</th>
-              <th scope="col">Data Inserimento</th>
-              <th scope="col">Stato Richiesta Consap</th>
+              <th scope="col">Oggetto</th> -->
+              <th scope="col">Dato del:</th>
+              <!-- <th scope="col">Stato Richiesta Consap</th> -->
               
               <th scope="col">Azioni</th>
             </tr>
@@ -103,11 +120,11 @@
 
           <tbody>
               <tr *ngFor="let richiesta of richStorico"> 
-                <td>{{richiesta.numeroTicket}}</td>
+              <!--   <td>{{richiesta.numeroTicket}}</td>
                 <td>{{richiesta.applicativo.descApplicativo}}</td>
-                <td>{{richiesta.oggetto}}</td>
+                <td>{{richiesta.oggetto}}</td> -->
                 <td>{{richiesta.dataInserimento | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-                <td>{{richiesta.statoRichiestaConsap.descStatoRichiestaConsap}}</td>
+               <!--  <td>{{richiesta.statoRichiestaConsap.descStatoRichiestaConsap}}</td> -->
                <!--  <th><button type="button"  class="btn btn-block btn-outline-primary btn-sm" (click)="redirect(richiesta)">Visualizza</button></th>  --> 
                  <th><button type="button"  class="btn btn-block btn-outline-success btn-sm"(click)="visualizzaSingola(richiesta)" 
                     >Visualizza </button></th>  
@@ -117,6 +134,30 @@
         </tbody>
        
       </table>
+
+    <!--   ------------page------------
+ -->
+ <nav class="pagination-wrapper" aria-label="Esempio di paginazione">
+    <ul class="pagination">
+      <li class="page-item ">
+        <a class="page-link"  (click)="paginaPrecedente()">
+          <svg class="icon icon-primary cursore"><use href="#it-chevron-left"></use></svg>
+          <span class="visually-hidden">Pagina precedente</span>
+        </a>
+      </li>
+      <li class="page-item active">
+        <a class="page-link"  aria-current="page">
+          <span class="d-inline-block d-sm-none">Pagina </span>Pagina/{{currentPage}}
+        </a>
+      </li>
+      <li class="page-item ">
+        <a class="page-link"    (click)="paginaSuccessiva()">
+          <span class="visually-hidden">Pagina successiva</span>
+          <svg class="icon icon-primary cursore"><use href="#it-chevron-right"></use></svg>
+        </a>
+      </li>
+    </ul>
+  </nav>
 
     
    
