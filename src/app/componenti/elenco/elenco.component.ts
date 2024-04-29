@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChiamateService } from '../../chiamate.service';
 import { Richieste } from '../../richieste';
@@ -33,6 +33,13 @@ totalPages: any=0
 
   sortField: string = 'dataCreazione';
   sortOrder: string = 'desc';
+  isSortOrderAsc = true;
+
+  sortFieldTicket: string = 'numeroTicket';
+  sortOrderTicket: string = 'desc';
+  isSortOrderAscTicket = true;
+
+  condizione: number = 0;
 
   
 // Ora hai un array con tutti i numeri di pagina, puoi usare questo array per generare dinamicamente le pagine nel tuo template HTML
@@ -47,7 +54,7 @@ applicativo: any = [];
   isDropdownOpen: boolean = false;
   isFlag: boolean = false;
 
-  constructor(private chiamateService: ChiamateService, private router: Router, private http: HttpClient) {
+  constructor(private cdRef: ChangeDetectorRef,private chiamateService: ChiamateService, private router: Router, private http: HttpClient) {
    
   }
 
@@ -97,6 +104,7 @@ applicativo: any = [];
 
 
     this.pageSize = size;
+    this.currentPage = 1;
    
 
 
@@ -171,10 +179,29 @@ applicativo: any = [];
       this.currentPage = numPages;
     }
   } */
+
+  private url= '';
+  private urlBase= 'http://localhost:8080/richiesta/';
    numeroPaginata(currentPage:any):Observable<any> {
     //const currentPage = 1;
-      const urlElenco = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}?campo=${this.sortField}&ordinamento=${this.sortOrder}`;
-  
+
+    if(this.condizione===0){
+      this.url= this.urlBase+`${currentPage}-${this.pageSize}?campo=${this.sortField}&ordinamento=${this.sortOrder}`
+      //const urlElenco = `http://localhost:8080/richiesta/${currentPage}-${this.pageSize}?campo=${this.sortField}&ordinamento=${this.sortOrder}`;
+       console.log(this.url);
+    } else if(this.condizione===1){
+     
+      this.url = this.urlBase+ `${currentPage}-${this.pageSize}?campo=${this.sortFieldTicket}&ordinamento=${this.sortOrderTicket}`;
+      console.log(this.url); 
+    }else if(this.condizione===2){
+      
+      this.url = this.urlBase+ `${currentPage}-${this.pageSize}?campo=${this.sortFieldTicket}&ordinamento='asc'`;
+      console.log(this.url);
+    } else if(this.condizione===3){
+      this.url= this.urlBase+`${currentPage}-${this.pageSize}?campo=${this.sortField}&ordinamento='desc'`;
+      console.log(this.url);
+      
+    }
       const accessToken = localStorage.getItem('access_token');
       if (!accessToken) {
         console.log("ACCESS TOKEN NON TROVATO");
@@ -234,7 +261,7 @@ applicativo: any = [];
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${accessToken}`);
   
-      return this.http.post<any>(urlElenco, dati, { headers });
+      return this.http.post<any>(this.url, dati, { headers });
   }
 
 
@@ -244,8 +271,29 @@ applicativo: any = [];
   paginata(size:any):Observable<any> {
     //const currentPage = 1;
      /*  const urlElenco = `http://localhost:8080/richiesta/${this.currentPage}-${size}`; */
-      const urlElenco = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}?campo=${this.sortField}&ordinamento=${this.sortOrder}`;
-  
+
+     if(this.condizione===0){
+      this.url= this.urlBase+`${this.currentPage}-${size}?campo=${this.sortField}&ordinamento=${this.sortOrder}`
+      //const urlElenco = `http://localhost:8080/richiesta/${currentPage}-${this.pageSize}?campo=${this.sortField}&ordinamento=${this.sortOrder}`;
+       console.log(this.url);
+    }else if(this.condizione===1){
+      //this.currentPage=1;
+      this.url = this.urlBase+ `${this.currentPage}-${size}?campo=${this.sortFieldTicket}&ordinamento=${this.sortOrderTicket}`;
+      console.log(this.url);
+      
+    } else if(this.condizione===2){
+    //  this.currentPage=1;
+      this.url = this.urlBase+ `${this.currentPage}-${size}?campo=${this.sortFieldTicket}&ordinamento='asc'`;
+      console.log(this.url);
+    } else if(this.condizione===3){
+      this.url= this.urlBase+`${this.currentPage}-${size}?campo=${this.sortField}&ordinamento='desc'`
+      console.log(this.url);
+      
+    }
+       
+     
+      //const urlElenco = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}?campo=${this.sortField}&ordinamento=${this.sortOrder}`;
+     
       const accessToken = localStorage.getItem('access_token');
       if (!accessToken) {
         console.log("ACCESS TOKEN NON TROVATO");
@@ -307,9 +355,9 @@ applicativo: any = [];
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${accessToken}`);
   
-      return this.http.post<any>(urlElenco, dati, { headers });
+      return this.http.post<any>(this.url, dati, { headers });
   }
-  isSortOrderAsc = true;
+ 
 
   // Metodo per cambiare il sortOrder
   changeSortOrderToAsc(): Observable<any> {
@@ -347,6 +395,94 @@ changeDataPag() {
     }
   );
 }
+
+
+
+
+/*  richiestePostTicketOrdinato() {
+  // Cambia l'ordinamento ad ogni chiamata
+  this.sortOrderTicket = this.isSortOrderAscTicket ? 'asc' : 'desc';
+  
+  // Chiamata al servizio con l'ordinamento corrente
+  this.chiamateService.richiestePostTicket().subscribe(
+    data => {
+      // Aggiorna l'ordinamento della pagina solo quando ricevi la risposta
+      this.richieste = data.elenco.content;
+      console.log("-------ELENCO RICHIESTE-------", data.elenco.content);
+      this.totalPages = data.elenco.totalPages;
+      console.log("-------TOTAL PAGES-------", this.totalPages);
+      console.log("-------ORDINAMENTO-------", this.sortOrderTicket);
+      
+      // Cambia il flag dell'ordinamento
+      this.isSortOrderAscTicket = !this.isSortOrderAscTicket;
+    },
+    error => {
+      console.error('Si è verificato un errore durante il recupero delle richieste:', error);
+    }
+  );
+} */ 
+ richiestePostTicketOrdinato() {
+   if(this.sortOrderTicket === 'asc') {
+    this.sortOrderTicket = 'desc';
+    this.condizione = 1;
+    this.currentPage = 1;
+    this.chiamateService.richiestePostTicket('numeroTicket','desc',this.pageSize).subscribe(
+      data => {
+        // Aggiorna l'ordinamento della pagina solo quando ricevi la risposta
+        this.richieste = data.elenco.content;
+        console.log("-------ELENCO RICHIESTE-------", data.elenco.content);
+        this.totalPages = data.elenco.totalPages;
+        console.log("-------TOTAL PAGES-------", this.totalPages);
+      }
+    )
+   }else  {
+    
+    this.sortOrderTicket = 'asc';
+    this.condizione = 2;
+    this.currentPage = 1;
+    this.chiamateService.richiestePostTicket('numeroTicket','asc',this.pageSize).subscribe(
+      data => {
+        // Aggiorna l'ordinamento della pagina solo quando ricevi la risposta
+        this.richieste = data.elenco.content;
+        console.log("-------ELENCO RICHIESTE-------", data.elenco.content);
+        this.totalPages = data.elenco.totalPages;
+        console.log("-------TOTAL PAGES-------", this.totalPages);
+      }
+    )
+   }
+   if(this.sortField === 'dataCreazione') {
+     
+   }
+
+
+  } 
+
+ /*  currentSortOrder: string = 'asc';
+  richiestePostTicketOrdinato() {
+    // Determina l'ordinamento opposto
+    const newSortOrder = this.currentSortOrder === 'asc' ? 'desc' : 'asc';
+
+    this.currentPage = 1;
+    
+    // Effettua la chiamata al servizio con l'ordinamento opposto
+    this.chiamateService.richiestePostTicket(newSortOrder).subscribe(
+        data => {
+            // Aggiorna l'ordinamento della pagina solo quando ricevi la risposta
+            this.richieste = data.elenco.content;
+            console.log("ordinamento", newSortOrder);
+            
+            console.log("-------ELENCO RICHIESTE-------", data.elenco.content);
+            this.totalPages = data.elenco.totalPages;
+            console.log("-------TOTAL PAGES-------", this.totalPages);
+            
+            // Aggiorna la variabile di stato con il nuovo ordinamento
+            this.currentSortOrder = newSortOrder;
+            console.log("-------ORDINAMENTO-------", this.currentSortOrder);
+            this.cdRef.detectChanges();
+        }
+    ); */
+
+
 
 
 
@@ -452,10 +588,35 @@ changeDataPag() {
         elenco: null,    
     };
     console.log("DATI FILTRO", dati);
+    this.currentPage=1;
+
+    if(this.condizione===0){
+      this.url= this.urlBase+`${this.currentPage}-${this.pageSize}?campo=dataCreazione&ordinamento=desc`;
+      //const urlElenco = `http://localhost:8080/richiesta/${currentPage}-${this.pagethis.pageSize}?campo=${this.sortField}&ordinamento=${this.sortOrder}`;
+       console.log(this.url);
+    }else if(this.condizione===1){
+      //this.currentPage=1;
+      this.url = this.urlBase+ `${this.currentPage}-${this.pageSize}?campo=numeroTicket&ordinamento=desc`;
+      console.log(this.url);
+      
+    } else if(this.condizione===2){
+    //  this.currentPage=1;
+      this.url = this.urlBase+ `${this.currentPage}-${this.pageSize}?campo=numeroTicket&ordinamento=asc`;
+      console.log(this.url);
+    } else if(this.condizione===3){
+      this.url= this.urlBase+`${this.currentPage}-${this.pageSize}?campo=dataCreazione&ordinamento=desc`
+      console.log(this.url);
+      
+    }
+       
+
+
+
     
 
-    this.chiamateService.richiestePostFiltrata(dati).subscribe(data => {
+    this.chiamateService.richiestePostFiltrata (dati,this.url).subscribe(data => {
       this.richieste = data.elenco.content;
+      this.totalPages=data.elenco.totalPages;
       console.log("-------ELENCO RICHIESTE-------", data.elenco.content);
     },
     error => {

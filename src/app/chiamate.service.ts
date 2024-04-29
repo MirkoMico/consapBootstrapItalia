@@ -20,6 +20,9 @@ export class ChiamateService {
   sortField: string = 'dataCreazione';
   sortOrder: string = 'desc';
 
+  campo: string = '';
+  ordinamento: string = ''; 
+
   sortFieldTicket: string = 'numeroTicket';
   sortOrderTicket: string = 'desc';
 
@@ -27,8 +30,11 @@ export class ChiamateService {
 
   private urlLogin = 'http://localhost:8080/login';
   private urlRichieste = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}`;
+  private urlRichiesteCurrent = `http://localhost:8080/richiesta/${this.currentPage}`;
   private urlRichiesteSort = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}?campo=${this.sortField}&ordinamento=${this.sortOrder}`;
-  private urlRichiesteSortTicket = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}?campo=${this.sortFieldTicket}&ordinamento=${this.sortOrderTicket}`;
+ // private urlRichiesteSortGenerale = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}?campo=${this.campo}&ordinamento=${this.ordinamento}`;
+  //private urlRichiesteSortTicket = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}?campo=${this.sortFieldTicket}&ordinamento=${this.sortOrderTicket}`;
+  //private urlRichiesteSortTicketAsc = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}?campo=${this.sortFieldTicket}&ordinamento=asc`;
   private urlApplicativo = 'http://localhost:8080/applicativo';
   private urlStatoRichiestaConsap = 'http://localhost:8080/statoRichiestaConsap';
   private urlStatoRichiestaOs='http://localhost:8080/statoRichiestaOs';
@@ -92,16 +98,22 @@ export class ChiamateService {
    return this.http.post<any>(this.urlRichiesteSort, body, { headers });
   }
 
-  richiestePostTicket(): Observable<any> {
+   richiestePostTicket(campo: string,ordinamento: string,righe:any): Observable<any> {
+
+   
+
     // Verifica se c'è un access_token nel localStorage
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
       console.error('Access token non trovato nel localStorage.');
       //return; // Interrompe l'esecuzione del metodo se l'access_token non è presente
     }
+    this.sortField='numeroTicket';
+    this.sortOrder='desc';
 
 
-   // const url = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}`;
+   //const url = `http://localhost:8080/richiesta/${this.currentPage}-${this.pageSize}?campo=${this.campo}&ordinamento=${this.ordinamento}`;
+   const url=this.urlRichiesteCurrent+`-${righe}?campo=${campo}&ordinamento=${ordinamento}`
     const body = {
         erroreDTO: null,
         filtri: {
@@ -125,8 +137,10 @@ export class ChiamateService {
     .set('Content-Type', 'application/json')
     .set('Authorization', `Bearer ${accessToken}`);
 
-   return this.http.post<any>(this.urlRichiesteSortTicket, body, { headers });
+   return this.http.post<any>(url, body, { headers });
   }
+ 
+  
 
 private chiamatePost(url: string): Observable<any> {
   // Verifica se c'è un access_token nel localStorage
@@ -221,8 +235,7 @@ richiestaStoricoPost(dati: any) {
  return this.http.post<any>(this.urlStorico,dati , { headers });
 }
 
-  richiestePostFiltrata( dati: any /* , oggetto: any, statoRichiestaConsapId: any, 
-   statoApprovazioneConsapId: any, statoApprovazioneOsId: any, statoRichiestaOsId: any */ ): Observable<any> {
+  richiestePostFiltrata( dati: any ,urlChiamata: any ): Observable<any> {
   // Verifica se c'è un access_token nel localStorage
   const accessToken = localStorage.getItem('access_token');
   if (!accessToken) {
@@ -236,7 +249,7 @@ richiestaStoricoPost(dati: any) {
   .set('Content-Type', 'application/json')
   .set('Authorization', `Bearer ${accessToken}`);
 
- return this.http.post<any>(this.urlRichieste, dati, { headers });
+ return this.http.post<any>(urlChiamata, dati, { headers });
 }
 
 

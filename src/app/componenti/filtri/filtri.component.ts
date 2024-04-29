@@ -78,7 +78,7 @@ statoApprovazioneOsPost(){
   })
 }
 
-
+/* 
 filtraRichieste(){ 
 
   const numeroTicketFiltro= (<HTMLInputElement>(document.getElementById("numeroTicketFiltro"))).value;
@@ -144,7 +144,7 @@ filtraRichieste(){
 
 
 }
-
+ */
 richiestePost(){
   this.chiamateService.richiestePost().subscribe(data => {
     this.richieste = data.elenco.content;
